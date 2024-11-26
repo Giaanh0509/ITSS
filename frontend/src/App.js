@@ -7,6 +7,8 @@ import BlankLayout from "./components/BlankLayout";
 import Login from "./pages/Login/Login";
 import Register from "./pages/Register/Register";
 import Homepage from "./pages/Homepage/Homepage";
+import Menu from "./pages/Menu/Menu";
+import ReviewPage from "./pages/Review/Review";
 
 const App = () => {
   return (
@@ -39,14 +41,23 @@ const App = () => {
             </MainLayout>
           }
         />
-        {/* <Route
+        { <Route
           path="/menu"
           element={
             <MainLayout>
-              <MenuPage />
+              <Menu />
             </MainLayout>
           }
-        /> */}
+        /> }
+
+{ <Route
+          path="/review"
+          element={
+            <MainLayout>
+              <ReviewPage />
+            </MainLayout>
+          }
+        /> }
       </Routes>
     </Router>
   );
