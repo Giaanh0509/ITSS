@@ -1,5 +1,5 @@
 import React from "react";
-import "./CustomerFeedback.css";
+import avatarImage from '../../../assets/images/homepage/mockavatar.png';
 
 const CustomerFeedback = () => {
   const feedbacks = [
@@ -30,18 +30,25 @@ const CustomerFeedback = () => {
   ];
 
   return (
-    <section className="customer-feedback">
-      <h2 className="section-title">お客様のフィードバック</h2>
-      <div className="feedback-grid">
+    <section className="py-10 px-[20%] bg-white text-center min-h-[500px]">
+      <h2 className="text-[28px] text-[#333] mb-[30px]">お客様のフィードバック</h2>
+      <div className="grid grid-cols-[repeat(auto-fit,minmax(220px,1fr))] gap-5 justify-center">
         {feedbacks.map((feedback) => (
-          <div className="feedback-card" key={feedback.id}>
-            <h3 className="feedback-quote">「{feedback.quote}」</h3>
-            <p className="feedback-text">{feedback.feedback}</p>
-            <div className="feedback-footer">
-              <div className="avatar-placeholder"></div>
-              <div className="author-info">
-                <span className="author-name">{feedback.name}</span>
-                <span className="author-location">{feedback.location}</span>
+          <div
+            className="bg-[#f9f9f9] border border-[#ddd] rounded-[8px] p-5 shadow-md text-left flex flex-col justify-between"
+            key={feedback.id}
+          >
+            <h3 className="text-[20px] text-[#e57373] mb-2.5">「{feedback.quote}」</h3>
+            <p className="text-sm text-[#555] mb-5 leading-[1.6]">{feedback.feedback}</p>
+            <div className="flex items-center">
+              <img
+                src={avatarImage}
+                alt="Avatar"
+                className="w-12 h-12 rounded-full mr-2.5 object-cover"
+              />
+              <div className="text-sm text-[#888]">
+                <span className="font-bold block">{feedback.name}</span>
+                <span className="text-xs">{feedback.location}</span>
               </div>
             </div>
           </div>
