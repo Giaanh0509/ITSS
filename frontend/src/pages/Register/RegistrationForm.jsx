@@ -57,7 +57,7 @@ const RegistrationForm = () => {
             onChange={handleChange}
             placeholder="パスワードを入力してください"
           />
-          <img src="https://placeholder.pics/svg/24x24" alt="toggle visibility" />
+          <img src="../../assets/images/eye_icon.svg" alt="toggle visibility" />
         </div>
       </div>
       <div className="form-group">
@@ -70,7 +70,7 @@ const RegistrationForm = () => {
             onChange={handleChange}
             placeholder="もう一度パスワードを入力してください"
           />
-          <img src="https://placeholder.pics/svg/24x24" alt="toggle visibility" />
+          <img src="../../assets/images/eye_icon.svg" alt="toggle visibility" />
         </div>
       </div>
       <div className="form-group">
