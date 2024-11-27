@@ -1,8 +1,5 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-
-import Header from '../../components/Header.jsx';
-import Footer from '../../components/Footer.jsx';
 import RegistrationForm from './RegistrationForm';
 import './Register.css';
 
@@ -12,10 +9,8 @@ const Title = () => (
 
 const Register = () => (
   <div className="Register">
-    <Header />
     <Title />
     <RegistrationForm />
-    <Footer />
   </div>
 );
 

@@ -7,8 +7,8 @@ const Login = () => {
     return <>
         <div class="bg-gray-100">
             <div class="flex flex-col items-center justify-center min-h-screen">
-                    <main class="flex flex-col items-center justify-center flex-1 w-full px-4">
-                        <h1 class="text-4xl font-bold mb-8">
+                    <main-page class="flex flex-col items-center my-16 flex-1 w-full px-4">
+                        <h1 class="text-6xl font-bold mb-8">
                                 ログイン
                         </h1>
                         <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
@@ -50,7 +50,7 @@ const Login = () => {
                                     </a>
                                 </div>
                         </div>
-                    </main>
+                    </main-page>
             </div>
         </div>
     </>
