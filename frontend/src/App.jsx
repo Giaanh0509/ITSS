@@ -2,7 +2,7 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import MainLayout from "./components/MainLayout";
-import BlankLayout from "./components/BlankLayout";
+import AuthLayout from "./components/AuthLayout";
 
 import Login from "./pages/Login/Login";
 import Register from "./pages/Register/Register";
@@ -16,17 +16,17 @@ const App = () => {
         <Route
           path="/login"
           element={
-            <BlankLayout>
+            <AuthLayout>
               <Login />
-            </BlankLayout>
+            </AuthLayout>
           }
         />
         <Route
           path="/register"
           element={
-            <BlankLayout>
+            <AuthLayout>
               <Register />
-            </BlankLayout>
+            </AuthLayout>
           }
         />
 
