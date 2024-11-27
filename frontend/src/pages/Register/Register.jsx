@@ -1,13 +1,22 @@
-// mock page cho register
-// cho register vao day
+import React from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
-import React from "react";
+import Header from '../../components/Header.jsx';
+import Footer from '../../components/Footer.jsx';
+import RegistrationForm from './RegistrationForm';
+import './Register.css';
 
-const Register = () => {
-    return <>
-        {/*register*/}
-        <p>This is mock register page</p>
-    </>
-}
+const Title = () => (
+  <h1 className="title">会員登録</h1>
+);
 
-export default Register
+const Register = () => (
+  <div className="Register">
+    <Header />
+    <Title />
+    <RegistrationForm />
+    <Footer />
+  </div>
+);
+
+export default Register;
