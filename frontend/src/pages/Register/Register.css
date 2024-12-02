@@ -1,0 +1,95 @@
+body {
+    font-family: 'DM Sans', sans-serif;
+    background-color: #f9f9f7;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .Register {
+    text-align: center;
+    padding: 20px;
+  }
+  
+  
+  .registration-form {
+    width: 100%;
+    max-width: 717px;
+    margin: 0 auto;
+    padding: 40px;
+    border-radius: 16px;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .form-group {
+    margin-bottom: 40px;
+  }
+  
+  label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 24px;
+    color: #000;
+  }
+  
+  input[type="text"],
+  input[type="password"],
+  input[type="email"] {
+    width: 100%;
+    padding: 18px 24px;
+    border: 1px solid #dbdfd0;
+    border-radius: 72px;
+    box-sizing: border-box;
+    font-size: 16px;
+    line-height: 24px;
+    color: #737865;
+  }
+  
+  .password-input {
+    display: flex;
+    align-items: center;
+  }
+  
+  .password-input img {
+    margin-left: 10px;
+    cursor: pointer;
+  }
+  
+  .submit-button {
+    width: 100%;
+    padding: 20px 32px;
+    background-color: #ad343e;
+    color: #fff;
+    border: none;
+    border-radius: 118px;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 24px;
+    cursor: pointer;
+    text-align: center;
+  }
+  
+  .submit-button:hover {
+    background-color: #8b2323;
+  }
+  
+  .login-link {
+    text-align: center;
+    margin-top: 10px;
+    color: #333;
+    font-size: 14px;
+  }
+  
+  .title {
+    font-family: 'Playfair Display', serif;
+    font-weight: 400;
+    font-size: 64px;
+    color: #2c2f24;
+    text-align: center;
+    line-height: 96px;
+    text-shadow: 1px 1px 0 #000000;
+    margin: 40px 0;
+  }
+  
