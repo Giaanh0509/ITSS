@@ -1,51 +1,80 @@
-// mock page for login
-// cho login vào đây
 
-import React from "react";
+
+import React, { useState } from "react";
 
 const Login = () => {
+    const [credentials, setCredentials] = useState({
+        username: "",
+        password: ""
+    });
+
+    const handleChange = (e) => {
+    const { name, value } = e.target;
+    setCredentials((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+    };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        const {username, password} = credentials;
+        console.log(username);
+        console.log(password);
+    };
+
     return <>
-        <div class="bg-gray-100">
-            <div class="flex flex-col items-center justify-center min-h-screen">
-                    <main-page class="flex flex-col items-center my-16 flex-1 w-full px-4">
-                        <h1 class="text-6xl font-bold mb-8">
+        <div className="bg-gray-100">
+            <div className="flex flex-col items-center justify-center min-h-screen">
+                    <main-page className="flex flex-col items-center my-16 flex-1 w-full px-4">
+                        <h1 className="text-6xl font-bold mb-8">
                                 ログイン
                         </h1>
-                        <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
-                                <form>
-                                    <div class="mb-4">
-                                            <label class="block text-gray-700 mb-2" for="username">
+                        <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
+                                <form onSubmit={handleSubmit}>
+                                    <div className="mb-4">
+                                            <label className="block text-gray-700 mb-2" htmlFor="username">
                                                 ユーザー名
                                             </label>
-                                            <input class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500"
-                                                id="username" placeholder="ユーザー名を入力してください" type="text" />
+                                            <input className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500"
+                                                id="username" 
+                                                name="username"
+                                                value={credentials.username}
+                                                onChange={handleChange}
+                                                placeholder="ユーザー名を入力してください" 
+                                                type="text" />
                                     </div>
-                                    <div class="mb-4">
-                                            <label class="block text-gray-700 mb-2" for="password">
+                                    <div className="mb-4">
+                                            <label className="block text-gray-700 mb-2" htmlFor="password">
                                                 パスワード
                                             </label>
-                                            <div class="relative">
-                                                <input class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500"
-                                                        id="password" placeholder="パスワードを入力してください" type="password" />
-                                                <i class="fas fa-eye absolute right-3 top-3 text-gray-500 cursor-pointer">
+                                            <div className="relative">
+                                                <input className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500"
+                                                        id="password" 
+                                                        name="password" 
+                                                        value={credentials.password}
+                                                        onChange={handleChange} 
+                                                        type="password" 
+                                                        placeholder="パスワードを入力してください"/>
+                                                <i className="fas fa-eye absolute right-3 top-3 text-gray-500 cursor-pointer">
                                                 </i>
                                             </div>
-                                            <div class="text-right mt-2">
-                                                <a class="text-sm text-gray-500" href="#">
+                                            <div className="text-right mt-2">
+                                                <a href="https://www.example.com" className="text-sm text-gray-500">
                                                         パスワードを忘れた場合
                                                 </a>
                                             </div>
                                     </div>
                                     <button
-                                            class="w-full bg-red-600 text-white py-2 rounded-lg hover:bg-red-700 transition duration-300">
+                                            className="w-full bg-red-600 text-white py-2 rounded-lg hover:bg-red-700 transition duration-300">
                                             ログイン
                                     </button>
                                 </form>
-                                <div class="text-center mt-4">
-                                    <span class="text-gray-500">
+                                <div className="text-center mt-4">
+                                    <span className="text-gray-500">
                                             アカウントをお持ちでないですか？
                                     </span>
-                                    <a class="text-red-600 font-bold" href="#">
+                                    <a href="https://www.example.com" className="text-red-600 font-bold">
                                             今すぐ登録
                                     </a>
                                 </div>
