@@ -25,7 +25,7 @@ const AboutUs = () => {
           私たちの物語は、洗練された食事、卓越したサービス、活気ある雰囲気を融合させたユニークなダイニング体験を創造するというビジョンから始まりました。
           他の豊かな料理文化に触発され、私たちは地元のルーツを尊重しながら、グローバルな味覚を取り入れることを目指しています。
         </p>
-        <button className="py-3 px-5 text-base bg-transparent text-[#333] border border-[#333] rounded-md cursor-pointer">
+        <button className="py-3 px-5 text-base bg-transparent text-[#333] border-1 border-[#333] rounded-[30px] cursor-pointer">
           私たちについてもっと
         </button>
       </div>
