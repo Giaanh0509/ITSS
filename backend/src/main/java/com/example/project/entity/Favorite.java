@@ -2,6 +2,8 @@ package com.example.project.entity;
 
 import jakarta.persistence.*;
 
+import java.util.Date;
+
 @Entity
 @Table(name = "favorites")
 public class Favorite {
@@ -17,4 +19,7 @@ public class Favorite {
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
+
+    @Column(name = "add_date")
+    private Date addDate;
 }
