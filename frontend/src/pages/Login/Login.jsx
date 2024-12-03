@@ -1,8 +1,11 @@
-
-
 import React, { useState } from "react";
+import UserService from "../../services/UserService";
+import { useNavigate } from 'react-router-dom';
+
 
 const Login = () => {
+    const navigate = useNavigate();
+
     const [credentials, setCredentials] = useState({
         username: "",
         password: ""
@@ -18,9 +21,27 @@ const Login = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        const {username, password} = credentials;
-        console.log(username);
-        console.log(password);
+        UserService.loginUser(credentials)
+            .then((res) => {
+             console.log(res);
+
+             if (res.data.message == "Email not exits") 
+             {
+               alert("Email not exits");
+             } 
+             else if(res.data.message == "Login Success")
+             { 
+                localStorage.setItem('username', username);
+                navigate('/');
+             } 
+              else 
+             { 
+                alert("Incorrect Email and Password not match");
+             }
+            })
+            .catch((err) => {
+                console.log(err);
+            })
     };
 
     return <>
