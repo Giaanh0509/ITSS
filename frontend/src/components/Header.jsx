@@ -49,7 +49,7 @@ const Header = () => {
           <ul className="flex flex-col md:flex-row items-center space-y-2 md:space-y-0 md:space-x-8">
             <li>
               <a
-                href="#"
+                href="/"
                 className="text-gray-800 font-semibold hover:text-gray-600 no-underline"
               >
                 ホーム
@@ -57,7 +57,7 @@ const Header = () => {
             </li>
             <li>
               <a
-                href="#"
+                href="/menu"
                 className="text-gray-800 font-semibold hover:text-gray-600 no-underline"
               >
                 メニュー
@@ -65,7 +65,7 @@ const Header = () => {
             </li>
             <li>
               <a
-                href="#"
+                href="/suggest"
                 className="text-gray-800 font-semibold hover:text-gray-600 no-underline"
               >
                 おすすめ
@@ -73,7 +73,7 @@ const Header = () => {
             </li>
             <li>
               <a
-                href="#"
+                href="/favorites"
                 className="text-gray-800 font-semibold hover:text-gray-600 no-underline"
               >
                 お気に入り

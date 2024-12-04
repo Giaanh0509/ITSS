@@ -1,32 +1,21 @@
-import React from "react";
-import { FaStar, FaRegStar, FaStarHalfAlt } from 'react-icons/fa'; // Import star icons
+import React, { useEffect, useState } from "react";
+import { FaStar, FaRegStar, FaStarHalfAlt } from 'react-icons/fa';
+import axios from '../../../axios';
 import avatarImage from '../../../assets/images/homepage/mockavatar.png';
 
 const CustomerFeedback = () => {
-  const feedbacks = [
-    {
-      id: 1,
-      quote: "最高のレストラン",
-      feedback:
-        "昨晩、当店で食事をし、私たちは本当に驚きました。入った瞬間から、私たちは心地よい雰囲気に包まれ、温かい笑顔で迎えられました。",
-      name: "陸葵",
-      rating: 4.5
-    },
-    {
-      id: 2,
-      feedback:
-        "当店はすべての面で私の期待を超えました。雰囲気は居心地が良くリラックスしており、私たちの記念日ディナーにぴったりの場所でした。",
-      name: "緑",
-      rating: 5
-    },
-    {
-      id: 3,
-      feedback:
-        "当店での料理体験は他に比べるものがありません。雰囲気は活気に満ちており、料理は素晴らしいものでした。食事は私たちの夜のハイライトでした。",
-      name: "代子",
-      rating: 3.5
-    },
-  ];
+  
+  const [feedbacks, setFeedbacks] = useState([]);
+
+  const fetchFeedback = async () => {
+    const response = await axios.get('/reviews/highest');
+
+    setFeedbacks(response.data);
+  }
+
+  useEffect(() => {
+    fetchFeedback();
+  }, []);
 
   // Helper function to render stars
   const renderStars = (rating) => {
@@ -54,13 +43,13 @@ const CustomerFeedback = () => {
         {feedbacks.map((feedback) => (
           <div
             className="bg-[#f9f9f9] border border-[#ddd] rounded-[8px] p-5 shadow-md text-left flex flex-col justify-between"
-            key={feedback.id}
+            // key={feedback.id}
           >
             {/* Display the star rating */}
             <div className="mb-3 d">
-              {renderStars(feedback.rating)}
+              {renderStars(feedback.star)}
             </div>
-            <p className="text-sm text-[#555] mb-5 leading-[1.6]">{feedback.feedback}</p>
+            <p className="text-sm text-[#555] mb-5 leading-[1.6]">{feedback.comment}</p>
             <div className="flex items-center">
               <img
                 src={avatarImage}
@@ -68,7 +57,7 @@ const CustomerFeedback = () => {
                 className="w-12 h-12 rounded-full mr-2.5 object-cover"
               />
               <div className="text-sm text-[#888]">
-                <span className="font-bold block">{feedback.name}</span>
+                <span className="font-bold block">{feedback.username}</span>
               </div>
             </div>
           </div>

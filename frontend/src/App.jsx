@@ -68,9 +68,11 @@ const App = () => {
         {/* <Route
           path="/menu"
           element={
-            <MainLayout>
-              <MenuPage />
-            </MainLayout>
+            <ProtectedRoute>
+              <MainLayout>
+                <MenuPage />
+              </MainLayout>
+            </ProtectedRoute>
           }
         /> */}
       </Routes>
