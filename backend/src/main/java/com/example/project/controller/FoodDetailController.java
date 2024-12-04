@@ -3,7 +3,7 @@ package com.example.project.controller;
 import com.example.project.dto.FoodDto;
 import com.example.project.entity.Food;
 import com.example.project.exception.AddFoodFailException;
-import com.example.project.service.FoodService;
+import com.example.project.service.FoodsService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -15,15 +15,15 @@ import java.util.Optional;
 @RequestMapping("/foods")
 public class FoodDetailController {
 
-    private final FoodService foodService;
+    private final FoodsService foodService;
 
-    public FoodDetailController(FoodService foodService) {
+    public FoodDetailController(FoodsService foodService) {
         this.foodService = foodService;
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<FoodDto> getFoodById(@PathVariable int id) {
-        Optional<FoodDto> foodDTO = foodService.getFoodById(id);
+        Optional<FoodDto> foodDTO = foodService.getFoodDtoById(id);
         return foodDTO.map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
