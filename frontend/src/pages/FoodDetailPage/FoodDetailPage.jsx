@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { FaStar, FaStarHalfAlt, FaRegStar } from "react-icons/fa"; // Import React Icons
 import RecentFavoritesSection from "./components/RecentFavorites";
+import ReviewSection from "./components/ReviewSection";
 
 const FoodDetailPage = () => {
   const { id } = useParams(); // Get the food ID from the URL
@@ -86,6 +87,8 @@ const FoodDetailPage = () => {
       </div>
       {/* Most recent added favorites */}
       <RecentFavoritesSection foodId = {parseInt(id)} />
+      {/* Review section of each food */}
+      <ReviewSection foodId = {parseInt(id)} />
     </>
   );
 };

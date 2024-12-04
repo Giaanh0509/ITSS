@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './Register.css';
 import UserService from "../../services/UserService";
 
 const RegistrationForm = () => {
+  const navigate = useNavigate(); // Initialize navigate function
   
   const [user, setUser] = useState({
     id: "",
@@ -19,7 +21,7 @@ const RegistrationForm = () => {
   const handleChange = (e) => {
     const value = e.target.value;
     setUser({ ...user, [e.target.name]: value });
-  }
+  };
 
   const handleConfirmPasswordChange = (e) => {
     setConfirmPassword(e.target.value);
@@ -35,22 +37,25 @@ const RegistrationForm = () => {
     }
 
     UserService.saveUser(user)
-        .then((response) => {
-            console.log(response);
-            setUser({
-              id: "",
-              username: "",
-              password: "",
-              email: "",
-              name: "",
-            });
-            
-            e.target.reset();
-        })
-        .catch((err) => {
-            console.error(err);
-        })
-  };  
+      .then((response) => {
+        console.log(response);
+        setUser({
+          id: "",
+          username: "",
+          password: "",
+          email: "",
+          name: "",
+        });
+
+        e.target.reset();
+        alert("登録に成功しました！ログイン画面に遷移します。");
+        navigate("/login"); // Navigate to login page after successful registration
+      })
+      .catch((err) => {
+        console.error(err);
+        setErrorMessage("登録に失敗しました。もう一度お試しください。");
+      });
+  };
 
   return (
     <form className="registration-form" onSubmit={saveUser}>
@@ -111,7 +116,12 @@ const RegistrationForm = () => {
         />
       </div>
       <button type="submit" className="submit-button">登録</button>
-      <div className="login-link">ログイン画面に遷移する</div>
+      {errorMessage && (
+        <div className="error-message">{errorMessage}</div>
+      )}
+      <div className="login-link">
+        <a href="/login">ログイン画面に遷移する</a>
+      </div>
     </form>
   );
 };

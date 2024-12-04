@@ -38,6 +38,11 @@ const Login = () => {
       });
   };
 
+  const handleNavigateToRegister = (e) => {
+    e.preventDefault(); // Prevent the default link behavior
+    navigate('/register'); // Navigate to /login
+  };
+
   return (
     <>
       <div className="bg-gray-100">
@@ -100,8 +105,8 @@ const Login = () => {
                   アカウントをお持ちでないですか？
                 </span>
                 <a
-                  href="https://www.example.com"
-                  className="text-red-600 font-bold"
+                  onClick={handleNavigateToRegister}
+                  className="text-red-600 font-bold cursor-pointer"
                 >
                   今すぐ登録
                 </a>
