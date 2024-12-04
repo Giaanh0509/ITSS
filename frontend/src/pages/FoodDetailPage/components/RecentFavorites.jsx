@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useContext, useState } from "react";
+import { AuthContext } from "../../Login/AuthProvider";
 import axios from "../../../axios";
 
 const RecentFavoritesSection = ({ foodId }) => {
   const [recentFavorites, setRecentFavorites] = useState([]); // To store recent favorite foods
-  const [username] = useState("hoangquan");
+  const { authState } = useContext(AuthContext);
+  const [alreadyExists, setAlreadyExists] = useState(false); 
 
   const handleAddFavorite = async () => {
     const today = new Date().toISOString().split("T")[0];
@@ -11,15 +13,22 @@ const RecentFavoritesSection = ({ foodId }) => {
     try {
       const response = await axios.post(`http://localhost:8080/favorites/add`, {
         foodId,
-        username,
+        username: authState.username,
         date: today,
       });
 
+      console.log(authState.username);
+
       if (response.status === 200) {
         alert("favorites added successfully");
+        setAlreadyExists(false);
       }
     } catch (err) {
-      alert("Failed to add favorites. Please try again.");
+      if (err.response && err.response.status === 409) {
+        setAlreadyExists(true);
+      }
+      else alert("Failed to add favorites");
+      console.log(authState.username);
     }
   };
 
@@ -27,7 +36,7 @@ const RecentFavoritesSection = ({ foodId }) => {
   useEffect(() => {
     const fetchRecentFavorites = async () => {
       try {
-        const response = await fetch(`http://localhost:8080/favorites/recent`);
+        const response = await fetch(`http://localhost:8080/favorites/recent?username=${authState.username}`);
         if (!response.ok) {
           throw new Error("Unable to fetch recent favorites");
         }
@@ -58,6 +67,14 @@ const RecentFavoritesSection = ({ foodId }) => {
         >
           お気に入りに追加
         </button>
+
+
+        {/* Display message if already exists */}
+        {alreadyExists && (
+          <p className="text-red-500 text-lg mt-4">
+            この料理はすでに お気に入り画面に存在します。
+          </p>
+        )}
 
         <div className="mt-10 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 w-full">
           {recentFavorites.map((favorite, index) => (
