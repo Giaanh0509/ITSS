@@ -9,6 +9,7 @@ import Register from "./pages/Register/Register";
 import Homepage from "./pages/Homepage/Homepage";
 import AddFoodForm from "./pages/AddFood/AddFood";
 import FoodDetailPage from "./pages/FoodDetailPage/FoodDetailPage";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 const App = () => {
   return (
@@ -36,26 +37,32 @@ const App = () => {
         <Route
           path="/"
           element={
-            <MainLayout>
-              <Homepage />
-            </MainLayout>
+            <ProtectedRoute>
+              <MainLayout>
+                <Homepage />
+              </MainLayout>
+            </ProtectedRoute>
           }
         />
         {/* add food page */}
         <Route
           path="/foods/add"
           element={
-            <MainLayout>
-              <AddFoodForm />
-            </MainLayout>
+            <ProtectedRoute>
+              <MainLayout>
+                <AddFoodForm />
+              </MainLayout>
+            </ProtectedRoute>
           }
         />
         <Route
           path="/foods/:id"
           element={
-            <MainLayout>
-              <FoodDetailPage />
-            </MainLayout>
+            <ProtectedRoute>
+              <MainLayout>
+                <FoodDetailPage />
+              </MainLayout>
+            </ProtectedRoute>
           }
         />
         {/* <Route

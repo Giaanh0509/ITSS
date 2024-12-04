@@ -21,7 +21,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
-@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/favorites")
 public class FavoriteController {
@@ -40,9 +39,9 @@ public class FavoriteController {
     }
 
     @GetMapping("/recent")
-    public ResponseEntity<List<FavoriteDto>> getRecentFavorites() {
+    public ResponseEntity<List<FavoriteDto>> getRecentFavorites(@RequestParam String username) {
         try {
-            List<FavoriteDto> recentFavorites = favoriteService.findMostRecentFavorites();
+            List<FavoriteDto> recentFavorites = favoriteService.findMostRecentFavoritesByUsername(username);
 
             if (!recentFavorites.isEmpty()) {
                 return ResponseEntity.ok(recentFavorites);
@@ -65,6 +64,11 @@ public class FavoriteController {
             Food food = foodsService.getFoodById(request.getFoodId());
             if (food == null) {
                 return ResponseEntity.status(404).body("Food not found.");
+            }
+
+            Optional<Favorite> existingFavorite = favoriteService.findByUserAndFood(user.getId(), food.getId());
+            if (existingFavorite.isPresent()) {
+                return ResponseEntity.status(409).body("Already exists.");
             }
 
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
