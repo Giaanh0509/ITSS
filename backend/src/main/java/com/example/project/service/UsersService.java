@@ -12,4 +12,6 @@ public interface UsersService {
     User saveUser (User user);
 
     LoginResponse loginUser(LoginDTO loginDTO);
+
+    User findByUsername(String username);
 }

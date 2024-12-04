@@ -43,6 +43,10 @@ public class Food {
     @OneToMany(mappedBy = "food", cascade = CascadeType.ALL)
     private Set<Recommend> recommends;
 
+    public int getId() {
+        return id;
+    }
+
     public String getName() {
         return name;
     }
@@ -121,5 +125,13 @@ public class Food {
 
     public void setRecommends(Set<Recommend> recommends) {
         this.recommends = recommends;
+    }
+
+    @Override
+    public String toString() {
+        return "Food{" +
+                "name='" + name + '\'' +
+                ", id=" + id +
+                '}';
     }
 }

@@ -72,8 +72,13 @@ public class UsersServiceImpl implements UsersService {
             } else {
                 return new LoginResponse("password Not Match", false);
             }
-        }else {
+        } else {
             return new LoginResponse("Username not exits", false);
         }
+    }
+
+    @Override
+    public User findByUsername(String username) {
+        return usersRepository.findByUsername(username);
     }
 }

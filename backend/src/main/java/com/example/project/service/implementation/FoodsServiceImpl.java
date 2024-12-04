@@ -1,10 +1,10 @@
 package com.example.project.service.implementation;
 
-import com.example.project.dao.FoodRepository;
+import com.example.project.dao.FoodsRepository;
 import com.example.project.dto.FoodDto;
 import com.example.project.entity.Food;
 import com.example.project.exception.AddFoodFailException;
-import com.example.project.service.FoodService;
+import com.example.project.service.FoodsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -14,17 +14,17 @@ import java.util.Base64;
 import java.util.Optional;
 
 @Service
-public class FoodServiceImpl implements FoodService {
+public class FoodsServiceImpl implements FoodsService {
 
-    private final FoodRepository foodRepository;
+    private final FoodsRepository foodRepository;
 
     @Autowired
-    public FoodServiceImpl(FoodRepository foodRepository) {
+    public FoodsServiceImpl(FoodsRepository foodRepository) {
         this.foodRepository = foodRepository;
     }
 
     @Override
-    public Optional<FoodDto> getFoodById(int id) {
+    public Optional<FoodDto> getFoodDtoById(int id) {
         Optional<Food> foodOptional = foodRepository.findById(id);
 
         if (foodOptional.isPresent()) {
@@ -48,6 +48,11 @@ public class FoodServiceImpl implements FoodService {
         }
 
         return Optional.empty();
+    }
+
+    @Override
+    public Food getFoodById(int id) {
+        return foodRepository.getReferenceById(id);
     }
 
     @Override

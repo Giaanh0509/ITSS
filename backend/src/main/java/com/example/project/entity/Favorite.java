@@ -22,4 +22,41 @@ public class Favorite {
 
     @Column(name = "add_date")
     private Date addDate;
+
+    public int getId() {
+        return id;
+    }
+
+    public Food getFood() {
+        return food;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public Date getAddDate() {
+        return addDate;
+    }
+
+    public void setFood(Food food) {
+        this.food = food;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public void setAddDate(Date addDate) {
+        this.addDate = addDate;
+    }
+
+    @Override
+    public String toString() {
+        return "Favorite{" +
+                "food=" + food.toString() +
+                ", user=" + user.toString() +
+                ", addDate=" + addDate +
+                '}';
+    }
 }
