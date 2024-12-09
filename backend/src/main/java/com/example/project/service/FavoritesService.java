@@ -10,6 +10,9 @@ public interface FavoritesService {
 
     List<FavoriteDto> findMostRecentFavoritesByUsername(String username);
 
+    //
+    List<FavoriteDto> findFavoritesByUsername(String username);
+
     void addFavorite(Favorite favorite);
 
     Optional<Favorite> findByUserAndFood(int userId, int foodId);

@@ -55,6 +55,32 @@ public class FavoritesServiceImpl implements FavoritesService {
     }
 
     @Override
+    public List<FavoriteDto> findFavoritesByUsername(String username) {
+        User user = usersRepository.findByUsername(username);
+        if (user == null) return List.of();
+
+        List<Favorite> favorites = favoriteRepository.findByUserId(user.getId());
+        return favorites.stream()
+                .map(favorite -> {
+                    FavoriteDto favoriteDto = new FavoriteDto();
+                    Food food = favorite.getFood();
+                    favoriteDto.setId(favorite.getId());
+                    favoriteDto.setName(food.getName());
+                    favoriteDto.setDescription(food.getDescription());
+                    favoriteDto.setRating(food.getRating());
+                    favoriteDto.setPrice(food.getPrice());
+                    favoriteDto.setLocation(food.getLocation());
+                    if (food.getImage() != null) {
+                        String base64Image = Base64.getEncoder().encodeToString(food.getImage());
+                        favoriteDto.setImageBase64(base64Image);
+                    }
+                    favoriteDto.setAddDate(favorite.getAddDate());
+                    return favoriteDto;
+                })
+                .collect(Collectors.toList());
+    }
+
+    @Override
     public void addFavorite(Favorite favorite) {
         favoriteRepository.save(favorite);
     }
@@ -63,4 +89,5 @@ public class FavoritesServiceImpl implements FavoritesService {
     public Optional<Favorite> findByUserAndFood(int userId, int foodId) {
         return favoriteRepository.findByUserIdAndFoodId(userId, foodId);
     }
+
 }
