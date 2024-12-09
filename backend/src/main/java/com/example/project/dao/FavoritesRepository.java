@@ -10,6 +10,9 @@ public interface FavoritesRepository extends JpaRepository<Favorite, Integer> {
 
     List<Favorite> findTop4ByUserIdOrderByAddDateDesc(int userId);
 
+
+    List<Favorite> findByUserId(int userId);
+
     Optional<Favorite> findByUserIdAndFoodId(int userId, int foodId);
 }
 
