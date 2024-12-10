@@ -1,6 +1,7 @@
 package com.example.project.entity;
 
 import jakarta.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table(name = "tags")
@@ -10,13 +11,33 @@ public class Tag {
     @Column(name = "id")
     private int id;
 
-    @Column(name = "tag_type")
-    private String tagType;
-
     @Column(name = "tag_name")
     private String tagName;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "food_id", referencedColumnName = "id")
-    private Food food;
+    @ManyToMany(mappedBy = "tags")
+    private Set<Food> foods;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getTagName() {
+        return tagName;
+    }
+
+    public void setTagName(String tagName) {
+        this.tagName = tagName;
+    }
+
+    public Set<Food> getFoods() {
+        return foods;
+    }
+
+    public void setFoods(Set<Food> foods) {
+        this.foods = foods;
+    }
 }

@@ -1,7 +1,6 @@
 package com.example.project.entity;
 
 import jakarta.persistence.*;
-
 import java.util.Set;
 
 @Entity
@@ -38,10 +37,15 @@ public class Food {
     private Set<Favorite> favorites;
 
     @OneToMany(mappedBy = "food", cascade = CascadeType.ALL)
-    private Set<Tag> tags;
-
-    @OneToMany(mappedBy = "food", cascade = CascadeType.ALL)
     private Set<Recommend> recommends;
+
+    @ManyToMany
+    @JoinTable(
+            name = "food_tags",
+            joinColumns = @JoinColumn(name = "food_id"),
+            inverseJoinColumns = @JoinColumn(name = "tag_id")
+    )
+    private Set<Tag> tags;
 
     public int getId() {
         return id;
