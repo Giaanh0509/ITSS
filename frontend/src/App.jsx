@@ -10,6 +10,7 @@ import Homepage from "./pages/Homepage/Homepage";
 import AddFoodForm from "./pages/AddFood/AddFood";
 import FoodDetailPage from "./pages/FoodDetailPage/FoodDetailPage";
 import ProtectedRoute from "./components/ProtectedRoute";
+import Anket from "./pages/Suggest/Anket";
 
 const App = () => {
   return (
@@ -61,6 +62,16 @@ const App = () => {
             <ProtectedRoute>
               <MainLayout>
                 <FoodDetailPage />
+              </MainLayout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/anket"
+          element={
+            <ProtectedRoute>
+              <MainLayout>
+                <Anket />
               </MainLayout>
             </ProtectedRoute>
           }
