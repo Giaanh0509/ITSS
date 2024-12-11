@@ -6,9 +6,10 @@ export const AuthProvider = ({ children }) => {
   const [authState, setAuthState] = useState({
     username: localStorage.getItem("username") || null,
     isAuthenticated: !!localStorage.getItem("username"),
+
   });
 
-  const login = (username) => {
+  const login = (username, userId) => {
     setAuthState({ username, isAuthenticated: true });
     localStorage.setItem("username", username);
   };

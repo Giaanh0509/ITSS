@@ -1,8 +1,13 @@
 package com.example.project.service.implementation;
 
+import com.example.project.dao.FoodsRepository;
 import com.example.project.dao.ReviewsRepository;
+import com.example.project.dao.UsersRepository;
+import com.example.project.dto.AddReviewDto;
 import com.example.project.dto.ReviewDto;
+import com.example.project.entity.Food;
 import com.example.project.entity.Review;
+import com.example.project.entity.User;
 import com.example.project.service.ReviewsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -16,10 +21,14 @@ import java.util.stream.Collectors;
 public class ReviewsServiceImpl implements ReviewsService {
 
     private final ReviewsRepository reviewsRepository;
+    private final FoodsRepository foodsRepository;
+    private final UsersRepository usersRepository;
 
     @Autowired
-    public ReviewsServiceImpl(ReviewsRepository reviewsRepository) {
+    public ReviewsServiceImpl(ReviewsRepository reviewsRepository, FoodsRepository foodsRepository, UsersRepository usersRepository) {
         this.reviewsRepository = reviewsRepository;
+        this.foodsRepository = foodsRepository;
+        this.usersRepository = usersRepository;
     }
 
     @Override
@@ -48,5 +57,28 @@ public class ReviewsServiceImpl implements ReviewsService {
                         review.getDate()
                 ))
                 .collect(Collectors.toList());
+    }
+
+    public void saveReview(AddReviewDto addReviewDto) {
+        // Fetch the Food entity
+        Food food = foodsRepository.findById(addReviewDto.getFoodId())
+                .orElseThrow(() -> new IllegalArgumentException("Food not found with ID: " + addReviewDto.getFoodId()));
+
+        // Fetch the User entity
+        User user = usersRepository.findByUsername(addReviewDto.getUsername());
+        if (user == null) {
+            throw new RuntimeException("User not found");
+        }
+
+        // Create a new Review object
+        Review review = new Review();
+        review.setFood(food);
+        review.setUser(user);
+        review.setStar(addReviewDto.getStar());
+        review.setComment(addReviewDto.getComment());
+        review.setDate(addReviewDto.getDate());
+
+        // Save the review in the database
+        reviewsRepository.save(review);
     }
 }

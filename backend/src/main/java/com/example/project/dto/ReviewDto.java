@@ -3,7 +3,8 @@ package com.example.project.dto;
 import java.util.Date;
 
 public class ReviewDto {
-
+    private int userId;
+    private int foodId;
     private String username;
     private String foodName;
     private double star;
@@ -16,6 +17,30 @@ public class ReviewDto {
         this.star = star;
         this.comment = comment;
         this.date = date;
+    }
+
+    public ReviewDto(int userId, int foodId, double star, String comment, Date date) {
+        this.userId = userId;
+        this.foodId = foodId;
+        this.star = star;
+        this.comment = comment;
+        this.date = date;
+    }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
+    public int getFoodId() {
+        return foodId;
+    }
+
+    public void setFoodId(int foodId) {
+        this.foodId = foodId;
     }
 
     // Getters and Setters
