@@ -68,7 +68,7 @@ const ReviewSection = ({ foodId }) => {
     <div className="m-16 mt-20">
       <div className="flex flex-col items-center mb-8">
       <button
-          onClick={() => navigate('/addReview')}
+          onClick={() => navigate(`/reviews/${foodId}`)}
           className="bg-white border-2 border-black text-black font-bold text-3xl py-3 px-8 rounded-full mb-6 hover:bg-gray-200 transition duration-300 transform hover:scale-105"
         >
           評価を追加する
