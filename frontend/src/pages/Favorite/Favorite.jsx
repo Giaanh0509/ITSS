@@ -5,18 +5,23 @@ import "./Favorite.css";
 
 import Footer from "../../components/Footer";
 
-const FavoriteFoods = () => {
+const Favorite = () => {
   const { authState } = useContext(AuthContext);
   const [favorites, setFavorites] = useState([]);
+  const [totalPages, setTotalPages] = useState(0);
+  const [page, setPage] = useState(0);
 
   useEffect(() => {
     const fetchUserFavorites = async () => {
       try {
-        const response = await axios.get(`/favorites/user/${authState.username}`);
-        if (response.data) {
-          setFavorites(response.data);
+        const response = await axios.get(
+          `/favorites/user/${authState.username}?page=${page}&size=8`
+        );
+        if (response.data && Array.isArray(response.data.content)) {
+          setFavorites(response.data.content);
+          setTotalPages(response.data.page.totalPages);
         } else {
-          alert("No favorites found.");
+          console.error("Error: No favorites.");
         }
       } catch (error) {
         console.error("Error fetching favorites:", error);
@@ -25,10 +30,14 @@ const FavoriteFoods = () => {
     };
 
     fetchUserFavorites();
-  }, [authState.username]);
+  }, [page]);
+
+  const handlePageChange = (newPage) => {
+    setPage(newPage); // Change the page for pagination
+  };
 
   return (
-    <div className="favorites-container">
+    <div className="favorites-container flex flex-col items-center">
       <h1>{authState.username}のお気に入り料理</h1>
       <p>こちらは家族や友人と共有するための美味しい料理のコレクション</p>
       <div className="favorites-grid">
@@ -46,13 +55,16 @@ const FavoriteFoods = () => {
               )}
               <div className="favorite-info">
                 <h3>
-                  {favorite.name} {favorite.nameJp && <span>({favorite.nameJp})</span>}
+                  {favorite.name}{" "}
+                  {favorite.nameJp && <span>({favorite.nameJp})</span>}
                 </h3>
                 <p>{favorite.description}</p>
                 <p>Rating: {favorite.rating}</p>
                 <p>Price: ${favorite.price}</p>
                 <p>Location: {favorite.location}</p>
-                <p>Added on: {new Date(favorite.addDate).toLocaleDateString()}</p>
+                <p>
+                  Added on: {new Date(favorite.addDate).toLocaleDateString()}
+                </p>
               </div>
             </div>
           ))
@@ -60,15 +72,23 @@ const FavoriteFoods = () => {
           <p>No favorites found.</p>
         )}
       </div>
-    </div>
-  );
-};
 
-const Favorite = () => {
-  return (
-    <div>
-      <FavoriteFoods />
-      <Footer />
+      {/* Pagination */}
+      {totalPages > 1 && (
+        <div className="flex space-x-4 mt-6">
+          {Array.from({ length: totalPages }).map((_, index) => (
+            <button
+              key={index}
+              onClick={() => handlePageChange(index)}
+              className={`py-2 px-4 rounded-full border-2 ${
+                page === index ? "bg-black text-white" : "bg-white text-black"
+              }`}
+            >
+              {index + 1}
+            </button>
+          ))}
+        </div>
+      )}
     </div>
   );
 };
