@@ -25,11 +25,9 @@ const AddFoodForm = () => {
     const fetchTags = async () => {
       try {
         const response = await axios.get("/tags");
-        const formattedTags = response.data.map((tag) => ({
-          ...tag,
-          displayName: getTagDisplayName(tag.tagName),
-        }));
-        setTags(formattedTags);
+        if (response.data) {
+          setTags(response.data);
+        }
       } catch (error) {
         console.error(error);
       }
@@ -217,7 +215,7 @@ const AddFoodForm = () => {
                   className="form-checkbox"
                 />
                 <span className="ml-2 text-sm text-gray-700">
-                  {tag.displayName}
+                  {tag.tagName}
                 </span>
               </label>
             ))}
