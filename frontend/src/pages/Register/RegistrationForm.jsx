@@ -101,7 +101,7 @@ const RegistrationForm = () => {
                         src={showPassword ? eyePasswordShow : eyePasswordHide}
                         alt="toggle visibility"
                         onClick={togglePasswordVisibility}
-                        style={{ cursor: "pointer" }}
+                        style={{ cursor: "pointer", width: "20px", height: "20px" }}
                     />
 
                 </div>
@@ -121,7 +121,7 @@ const RegistrationForm = () => {
                         src={showPassword ? eyePasswordShow : eyePasswordHide}
                         alt="toggle visibility"
                         onClick={togglePasswordVisibility}
-                        style={{ cursor: "pointer" }}
+                        style={{ cursor: "pointer", width: "20px", height: "20px" }}
                     />
                 </div>
             </div>
