@@ -2,6 +2,7 @@ import React, {useContext, useState} from "react";
 import axios from "axios";
 import {useParams} from "react-router-dom"; // Ensure Axios is installed and imported
 import {AuthContext} from "../Login/AuthProvider";
+import {useNavigate} from "react-router-dom";
 
 const Review = () => {
     const { user } = useContext(AuthContext); // Get authenticated user from context
@@ -10,7 +11,7 @@ const Review = () => {
     const [rating, setRating] = useState(5); // Default rating is 5 stars
     const [comment, setComment] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
-
+    const navigate = useNavigate();
     // Handle star click to update rating
     const handleRatingClick = (value) => {
         setRating(value);
@@ -29,6 +30,9 @@ const Review = () => {
 
             await axios.post("http://localhost:8080/reviews", reviewData);
             setComment(""); // Clear the comment field
+            setTimeout(() => {
+                navigate(-1); // Navigate back to the previous page
+            }, 700);
         } catch (error) {
             setErrorMessage("Failed to submit review. Please try again.");
             console.error("Review submission error:", error);
