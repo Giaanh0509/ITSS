@@ -1,8 +1,10 @@
 package com.example.project.service.implementation;
 
 import com.example.project.dao.FoodsRepository;
+import com.example.project.dao.TagsRepository;
 import com.example.project.dto.FoodDto;
 import com.example.project.entity.Food;
+import com.example.project.entity.Tag;
 import com.example.project.exception.AddFoodFailException;
 import com.example.project.service.FoodsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +12,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+
+import java.util.*;
 import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
@@ -19,10 +23,12 @@ import java.util.stream.Collectors;
 public class FoodsServiceImpl implements FoodsService {
 
     private final FoodsRepository foodRepository;
+    private final TagsRepository tagsRepository;
 
     @Autowired
-    public FoodsServiceImpl(FoodsRepository foodRepository) {
+    public FoodsServiceImpl(FoodsRepository foodRepository, TagsRepository tagsRepository) {
         this.foodRepository = foodRepository;
+        this.tagsRepository = tagsRepository;
     }
 
     @Override
@@ -59,7 +65,7 @@ public class FoodsServiceImpl implements FoodsService {
 
     @Override
     public Food saveFoodWithImage(String description, String location,
-                                  String name, Double price, MultipartFile file) {
+                                  String name, Double price, MultipartFile file, List<Integer> tagIds) {
         try {
             Food food = new Food();
             food.setDescription(description);
@@ -70,6 +76,9 @@ public class FoodsServiceImpl implements FoodsService {
 
             // Convert the image file to a byte array
             food.setImage(file.getBytes()); // Handles the image upload
+
+            Set<Tag> tags = new HashSet<>(tagsRepository.findAllById(tagIds));
+            food.setTags(tags);
 
             // Save the food to the repository
             return foodRepository.save(food);
