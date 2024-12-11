@@ -37,6 +37,15 @@ public class FavoriteController {
         this.usersService = usersService;
         this.foodsService = foodsService;
     }
+    @GetMapping("/user/{username}")
+    public ResponseEntity<List<FavoriteDto>> getUserFavorites(@PathVariable String username) {
+        try {
+            List<FavoriteDto> userFavorites = favoriteService.findFavoritesByUsername(username);
+            return userFavorites.isEmpty() ? ResponseEntity.notFound().build() : ResponseEntity.ok(userFavorites);
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body(null);
+        }
+    }
 
     @GetMapping("/recent")
     public ResponseEntity<List<FavoriteDto>> getRecentFavorites(@RequestParam String username) {
@@ -88,4 +97,6 @@ public class FavoriteController {
             return ResponseEntity.status(500).body("Error adding new favorite: " + e.getMessage());
         }
     }
+
+
 }

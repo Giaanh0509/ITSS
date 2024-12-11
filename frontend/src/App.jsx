@@ -10,6 +10,7 @@ import Homepage from "./pages/Homepage/Homepage";
 import AddFoodForm from "./pages/AddFood/AddFood";
 import FoodDetailPage from "./pages/FoodDetailPage/FoodDetailPage";
 import ProtectedRoute from "./components/ProtectedRoute";
+import Favorite from "./pages/Favorite/Favorite";
 
 const App = () => {
   return (
@@ -29,6 +30,15 @@ const App = () => {
           element={
             <AuthLayout>
               <Register />
+            </AuthLayout>
+          }
+        />
+
+        <Route
+          path="/favorites"
+          element={
+            <AuthLayout>
+              <Favorite />
             </AuthLayout>
           }
         />
