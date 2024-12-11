@@ -12,7 +12,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+
 import java.util.*;
+import java.util.Base64;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class FoodsServiceImpl implements FoodsService {
@@ -81,6 +86,30 @@ public class FoodsServiceImpl implements FoodsService {
             throw new AddFoodFailException("Error while saving food ", e);
         }
     }
+
+    @Override
+    public List<FoodDto> getAllFoods() {
+        List<Food> foods = foodRepository.findAll();
+        return foods.stream().map(food -> {
+            FoodDto foodDto = new FoodDto();
+            foodDto.setId(food.getId());
+            foodDto.setName(food.getName());
+            foodDto.setDescription(food.getDescription());
+            foodDto.setPrice(food.getPrice());
+            foodDto.setLocation(food.getLocation());
+            foodDto.setRating(food.getRating());
+
+            // Convert image to Base64 string
+            if (food.getImage() != null) {
+                String base64Image = Base64.getEncoder().encodeToString(food.getImage());
+                foodDto.setImageBase64(base64Image);
+            }
+
+            return foodDto;
+        }).collect(Collectors.toList());
+    }
+
+
 
 
 }

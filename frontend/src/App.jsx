@@ -10,7 +10,6 @@ import Homepage from "./pages/Homepage/Homepage";
 import AddFoodForm from "./pages/AddFood/AddFood";
 import FoodDetailPage from "./pages/FoodDetailPage/FoodDetailPage";
 import ProtectedRoute from "./components/ProtectedRoute";
-import Favorite from "./pages/Favorite/Favorite";
 
 const App = () => {
   return (
@@ -58,33 +57,43 @@ const App = () => {
         <Route
           path="/foods/add"
           element={
-            <ProtectedRoute>
+              <ProtectedRoute>
               <MainLayout>
                 <AddFoodForm />
               </MainLayout>
-            </ProtectedRoute>
+                  </ProtectedRoute>
           }
         />
         <Route
           path="/foods/:id"
           element={
-            <ProtectedRoute>
+              <ProtectedRoute>
               <MainLayout>
                 <FoodDetailPage />
               </MainLayout>
-            </ProtectedRoute>
+                  </ProtectedRoute>
           }
         />
-        {/* <Route
+         <Route
           path="/menu"
           element={
-            <ProtectedRoute>
+              <ProtectedRoute>
               <MainLayout>
-                <MenuPage />
+                <Menu />
               </MainLayout>
-            </ProtectedRoute>
+              </ProtectedRoute>
           }
-        /> */}
+        />
+          <Route
+              path="/reviews/:foodId"
+              element={
+                  <ProtectedRoute>
+                      <MainLayout>
+                          <Review/>
+                      </MainLayout>
+                  </ProtectedRoute>
+              }
+          />
       </Routes>
     </Router>
   );

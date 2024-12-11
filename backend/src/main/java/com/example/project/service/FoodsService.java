@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface FoodsService {
-
+    List<FoodDto> getAllFoods();
     Optional<FoodDto> getFoodDtoById(int id);
 
     Food getFoodById(int id);
