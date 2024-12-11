@@ -1,12 +1,14 @@
 package com.example.project.entity;
 
+import java.util.List;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -18,18 +20,18 @@ public class Anket {
     private int id;
 
     @Column(name = "favorite_flavor")
-    private String favoriteFlavor;
+    private List<String> favoriteFlavor;
 
     @Column(name = "favorite_food")
-    private String favoriteFood;
+    private List<String> favoriteFood;
 
     @Column(name = "price_range")
-    private String priceRange;
+    private List<String> priceRange;
 
     @Column(name = "dislike")
-    private String dislike;
+    private List<String> dislike;
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
@@ -42,35 +44,35 @@ public class Anket {
         this.id = id;
     }
 
-    public String getFavoriteFlavor() {
+    public List<String> getFavoriteFlavors() {
         return favoriteFlavor;
     }
 
-    public void setFavoriteFlavor(String favoriteFlavor) {
+    public void setFavoriteFlavors(List<String> favoriteFlavor) {
         this.favoriteFlavor = favoriteFlavor;
     }
 
-    public String getFavoriteFood() {
+    public List<String> getFavoriteFoods() {
         return favoriteFood;
     }
 
-    public void setFavoriteFood(String favoriteFood) {
+    public void setFavoriteFoods(List<String> favoriteFood) {
         this.favoriteFood = favoriteFood;
     }
 
-    public String getPriceRange() {
+    public List<String> getPrice() {
         return priceRange;
     }
 
-    public void setPriceRange(String priceRange) {
+    public void setPrice(List<String> priceRange) {
         this.priceRange = priceRange;
     }
 
-    public String getDislike() {
+    public List<String> getDislikes() {
         return dislike;
     }
 
-    public void setDislike(String dislike) {
+    public void setDislikes(List<String> dislike) {
         this.dislike = dislike;
     }
 

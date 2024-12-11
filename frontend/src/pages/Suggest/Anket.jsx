@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import axios from '../../axios';
 
 const Anket = () => {
     const [formData, setFormData] = useState({
@@ -7,6 +8,9 @@ const Anket = () => {
         question3: { option1: false, option2: false, option3: false, option4: false, option5: false },
         question4: { option1: false, option2: false, option3: false, option4: false, option5: false },
     });
+
+    const [error, setError] = useState(null);
+    const [success, setSuccess] = useState(null);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -48,37 +52,43 @@ const Anket = () => {
         if (formData.question4.option4) anketData.allergies.push('ingre_meat');
         if (formData.question4.option5);
 
-        try {
-            const userResponse = await fetch('http://localhost:8080/user');
-            if (userResponse.ok) {
-                const userData = await userResponse.json();
-                anketData.userId = userData.id;
+        try{
+            const userInfo = JSON.parse(sessionStorage.getItem('userInfo'));
+            if (userInfo) {
+                anketData.userId = userInfo.id;
             } else {
-                console.error('Failed to fetch user data');
+                setError("User information not found. Please log in.");
+                return;
             }
-        } catch (error) {
-            console.error('Error fetching user data:', error);
+        } catch (err) {
+            console.error('Failed to get user information');
+            setError("Failed to get user information. Please log in.");
+            return;
         }
 
-        try {
-            const response = await fetch('http://localhost:8080/ankets', {
-                method: 'POST',
+        try{
+            const response = await axios.post("/suggest/anket", anketData, {
                 headers: {
-                    'Content-Type': 'application/json',
+                    "Content-Type": "application/json",
                 },
-                body: JSON.stringify(anketData),
             });
-    
-            if (response.ok) {
-                const result = await response.json();
-                console.log('Anket created:', result);
-            } else {
-                console.error('Failed to create anket');
-            }
-        } catch (error) {
-            console.error('Error:', error);
-        }
 
+            if (response.status === 200) {
+                console.log('Anket created:', response.data);
+                setSuccess("Anket created successfully!");
+                setError(null);
+                setFormData({
+                    question1: { price1: false, price2: false, price3: false, price4: false, price5: false },
+                    question2: { option1: false, option2: false, option3: false, option4: false, option5: false, option6: false },
+                    question3: { option1: false, option2: false, option3: false, option4: false, option5: false },
+                    question4: { option1: false, option2: false, option3: false, option4: false, option5: false },
+                });
+            }
+        } catch (err) {
+            console.error('Failed to create anket');
+            setError("Failed to create anket. Please try again.");
+            setSuccess(null);
+        }
     };
     /*
     Price range: 1: 15-20k, 2: 25-50k, 3: 50-100k, 4:100-150k, 5: 150k+
@@ -134,7 +144,7 @@ const Anket = () => {
         <div style={{ border: '1px solid black', padding: '20px', margin: '20px' }}>
             <p style={{ textAlign: 'center', fontSize: '70px'}}><strong>メニュー提案画面</strong></p>
             <p style={{textAlign: 'center', fontSize: '20px'}}>こちらは、あなたに楽しんでいただける料理のコレクション</p>
-            <form onSubmit={handleSubmit} style={{ backgroundColor: 'lightgray', width: '100%' }}>
+            <form onSubmit={handleSubmit} encType="multipart/anket-data" style={{ backgroundColor: 'lightgray', width: '100%' }}>
                 <h1 style={{ textAlign: 'center' }}><strong>アンケート</strong></h1>
                 <div style={{ paddingLeft: '50px', width: '100%', paddingTop: '25px' }}>
                     <label><h5><strong>希望する料理の価値帯</strong></h5></label>

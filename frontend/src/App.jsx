@@ -67,7 +67,7 @@ const App = () => {
           }
         />
         <Route
-          path="/anket"
+          path="/suggest/anket"
           element={
             <ProtectedRoute>
               <MainLayout>

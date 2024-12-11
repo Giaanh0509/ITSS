@@ -2,8 +2,9 @@
 package com.example.project.service;
 
 import com.example.project.dto.AnketDto;
+import com.example.project.entity.Anket;
 
 public interface AnketService {
     AnketDto findAnketByUserId(int userId);
-    void addAnket(AnketDto anketDto);
+    Anket addAnket(AnketDto anketDto);
 }
