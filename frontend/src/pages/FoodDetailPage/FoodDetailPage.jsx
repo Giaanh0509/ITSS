@@ -7,6 +7,7 @@ import ReviewSection from "./components/ReviewSection";
 const FoodDetailPage = () => {
   const { id } = useParams(); // Get the food ID from the URL
   const [food, setFood] = useState(null);
+  const [averageRating, setAverageRating] = useState(0);
 
   // Fetch food details based on the food ID
   useEffect(() => {
@@ -80,7 +81,7 @@ const FoodDetailPage = () => {
               {" "}
               {/* Added flex and space between items */}
               <p className="text-lg text-gray-600">評価:</p>
-              {renderStars(food.rating)} {/* Render stars */}
+              {renderStars(averageRating)} {/* Render stars */}
             </div>
           </div>
         </div>
@@ -88,7 +89,9 @@ const FoodDetailPage = () => {
       {/* Most recent added favorites */}
       <RecentFavoritesSection foodId = {parseInt(id)} />
       {/* Review section of each food */}
-      <ReviewSection foodId = {parseInt(id)} />
+      <ReviewSection foodId = {parseInt(id)}
+       onRatingUpdate={(avg) => setAverageRating(avg)}/>
+
     </>
   );
 };
