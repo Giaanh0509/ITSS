@@ -1,11 +1,10 @@
-import React, {useContext, useState} from "react";
+import React, { useState} from "react";
 import axios from "axios";
 import {useParams} from "react-router-dom"; // Ensure Axios is installed and imported
-import {AuthContext} from "../Login/AuthProvider";
 import {useNavigate} from "react-router-dom";
 
 const Review = () => {
-    const { user } = useContext(AuthContext); // Get authenticated user from context
+
 
     const  {foodId} = useParams();
     const [rating, setRating] = useState(5); // Default rating is 5 stars
