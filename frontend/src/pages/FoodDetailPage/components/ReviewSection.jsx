@@ -3,7 +3,7 @@ import axios from "../../../axios";
 import { FaStar, FaRegStar, FaStarHalfAlt } from "react-icons/fa"; // Import star icons
 import { useNavigate } from "react-router-dom";
 
-const ReviewSection = ({ foodId }) => {
+const ReviewSection = ({ foodId, onRatingUpdate }) => {
   const [reviews, setReviews] = useState([]); // To store reviews for the current food item
   const [totalPages, setTotalPages] = useState(0); // To manage pagination
   const [page, setPage] = useState(0); // Current page for pagination
@@ -22,6 +22,19 @@ const ReviewSection = ({ foodId }) => {
         if (response.data && Array.isArray(response.data.content)) {
           setReviews(response.data.content);
           setTotalPages(response.data.page.totalPages);
+          const totalStars = response.data.content.reduce(
+              (acc, review) => acc + review.star,
+              0
+          );
+          const avgRating =
+              response.data.content.length > 0
+                  ? totalStars / response.data.content.length
+                  : 0;
+
+          // Pass average rating back to parent
+          if (onRatingUpdate) {
+            onRatingUpdate(avgRating);
+          }
         } else {
           console.error("Error: Reviews not found.");
         }
@@ -31,7 +44,7 @@ const ReviewSection = ({ foodId }) => {
     };
 
     fetchReviews();
-  }, [foodId, page]); // Re-run the effect if foodId or page changes
+  }, [foodId, page, onRatingUpdate]); // Re-run the effect if foodId or page changes
 
   const formatDate = (date) => {
     const d = new Date(date);
