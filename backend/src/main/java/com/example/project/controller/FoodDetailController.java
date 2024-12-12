@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -29,17 +30,26 @@ public class FoodDetailController {
 
     @PostMapping("/add")
     public ResponseEntity<?> addFood(
+            @RequestParam("name") String name,
             @RequestParam("description") String description,
             @RequestParam("location") String location,
-            @RequestParam("name") String name,
             @RequestParam("price") Double price,
-            @RequestParam("file") MultipartFile file) {
+            @RequestParam("file") MultipartFile file,
+            @RequestParam("tagIds") List<Integer> tagIds) {
 
         try {
-            Food savedFood = foodService.saveFoodWithImage(description, location, name, price, file);
+            // Debug logs to verify received data
+            System.out.println("Description: " + description);
+            System.out.println("Location: " + location);
+            System.out.println("Name: " + name);
+            System.out.println("Price: " + price);
+            System.out.println("File: " + (file != null ? file.getOriginalFilename() : "No file"));
+            System.out.println("Tag IDs: " + tagIds);
+
+            // Save food with tags and image
+            Food savedFood = foodService.saveFoodWithImage(description, location, name, price, file, tagIds);
             return ResponseEntity.ok(savedFood);
         } catch (AddFoodFailException e) {
-            // Handle the custom exception and return a failure response
             return ResponseEntity.status(500).body("Failed to add food: " + e.getMessage());
         }
     }

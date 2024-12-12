@@ -10,6 +10,7 @@ import com.example.project.service.FavoritesService;
 import com.example.project.service.FoodsService;
 import com.example.project.service.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -37,10 +38,14 @@ public class FavoriteController {
         this.usersService = usersService;
         this.foodsService = foodsService;
     }
+
     @GetMapping("/user/{username}")
-    public ResponseEntity<List<FavoriteDto>> getUserFavorites(@PathVariable String username) {
+    public ResponseEntity<Page<FavoriteDto>> getUserFavorites(
+            @PathVariable String username,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "8") int size) {
         try {
-            List<FavoriteDto> userFavorites = favoriteService.findFavoritesByUsername(username);
+            Page<FavoriteDto> userFavorites = favoriteService.findFavoritesByUsername(username, page, size);
             return userFavorites.isEmpty() ? ResponseEntity.notFound().build() : ResponseEntity.ok(userFavorites);
         } catch (Exception e) {
             return ResponseEntity.status(500).body(null);
@@ -63,7 +68,7 @@ public class FavoriteController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<String> addFavorite(@RequestBody FavoriteRequestDto request) throws ParseException {
+    public ResponseEntity<String> addFavorite(@RequestBody FavoriteRequestDto request) {
         try {
             User user = usersService.findByUsername(request.getUsername());
             if (user == null) {

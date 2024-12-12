@@ -1,17 +1,40 @@
-import { useState } from "react";
-import axios from '../../axios';
+import { useEffect, useState } from "react";
+import axios from "../../axios";
+import tagDisplayNames from "./Tags";
 
 const AddFoodForm = () => {
+
+  const getTagDisplayName = (tagName) => {
+    return tagDisplayNames[tagName] || tagName; // Default to original name if no mapping found
+  };
+  
   const [foodData, setFoodData] = useState({
     name: "",
     description: "",
     location: "",
     price: "",
     image: null,
+    tagIds: [],
   });
 
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
+  const [tags, setTags] = useState([]);
+
+  useEffect(() => {
+    const fetchTags = async () => {
+      try {
+        const response = await axios.get("/tags");
+        if (response.data) {
+          setTags(response.data);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchTags();
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -28,6 +51,17 @@ const AddFoodForm = () => {
     }));
   };
 
+  const handleTagChange = (e) => {
+    const { value, checked } = e.target;
+    const tagId = parseInt(value, 10);
+    setFoodData((prevData) => ({
+      ...prevData,
+      tagIds: checked
+        ? [...prevData.tagIds, tagId]
+        : prevData.tagIds.filter((id) => id !== tagId),
+    }));
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -37,6 +71,9 @@ const AddFoodForm = () => {
     formData.append("location", foodData.location);
     formData.append("price", foodData.price);
     formData.append("file", foodData.image);
+    foodData.tagIds.forEach((tagId) => {
+      formData.append("tagIds", tagId);
+    });
 
     try {
       const response = await axios.post("/foods/add", formData, {
@@ -54,6 +91,7 @@ const AddFoodForm = () => {
           location: "",
           price: "",
           image: null,
+          tagIds: [],
         });
       }
     } catch (err) {
@@ -70,7 +108,12 @@ const AddFoodForm = () => {
         {success && <div className="text-green-500 mb-4">{success}</div>}
 
         <div className="mb-4">
-          <label htmlFor="name" className="block text-sm font-medium text-gray-700">Food Name</label>
+          <label
+            htmlFor="name"
+            className="block text-sm font-medium text-gray-700"
+          >
+            Food Name
+          </label>
           <input
             type="text"
             id="name"
@@ -83,7 +126,12 @@ const AddFoodForm = () => {
         </div>
 
         <div className="mb-4">
-          <label htmlFor="description" className="block text-sm font-medium text-gray-700">Description</label>
+          <label
+            htmlFor="description"
+            className="block text-sm font-medium text-gray-700"
+          >
+            Description
+          </label>
           <textarea
             id="description"
             name="description"
@@ -96,7 +144,12 @@ const AddFoodForm = () => {
         </div>
 
         <div className="mb-4">
-          <label htmlFor="location" className="block text-sm font-medium text-gray-700">Location</label>
+          <label
+            htmlFor="location"
+            className="block text-sm font-medium text-gray-700"
+          >
+            Location
+          </label>
           <input
             type="text"
             id="location"
@@ -109,7 +162,12 @@ const AddFoodForm = () => {
         </div>
 
         <div className="mb-4">
-          <label htmlFor="price" className="block text-sm font-medium text-gray-700">Price</label>
+          <label
+            htmlFor="price"
+            className="block text-sm font-medium text-gray-700"
+          >
+            Price
+          </label>
           <input
             type="number"
             id="price"
@@ -124,7 +182,12 @@ const AddFoodForm = () => {
         </div>
 
         <div className="mb-4">
-          <label htmlFor="file" className="block text-sm font-medium text-gray-700">Upload Image</label>
+          <label
+            htmlFor="file"
+            className="block text-sm font-medium text-gray-700"
+          >
+            Upload Image
+          </label>
           <input
             type="file"
             id="file"
@@ -134,6 +197,29 @@ const AddFoodForm = () => {
             required
             className="mt-1 block w-full text-sm text-gray-700 border border-gray-300 rounded-md"
           />
+        </div>
+
+        {/* Tags Section */}
+        <div className="mb-4">
+          <label className="block text-sm font-medium text-gray-700">
+            Select Tags
+          </label>
+          <div className="grid grid-cols-2 gap-2 mt-2">
+            {tags.map((tag) => (
+              <label key={tag.id} className="inline-flex items-center">
+                <input
+                  type="checkbox"
+                  value={tag.id}
+                  onChange={handleTagChange}
+                  checked={foodData.tagIds.includes(tag.id)}
+                  className="form-checkbox"
+                />
+                <span className="ml-2 text-sm text-gray-700">
+                  {tag.tagName}
+                </span>
+              </label>
+            ))}
+          </div>
         </div>
 
         <div className="flex justify-center mt-6">

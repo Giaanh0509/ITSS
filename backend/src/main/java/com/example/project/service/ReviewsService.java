@@ -13,5 +13,6 @@ public interface ReviewsService {
     Page<ReviewDto> findReviewsByFoodId(int foodId, Pageable pageable);
 
     List<ReviewDto> findTop3HighestRatedReviews();
+
     void saveReview(AddReviewDto addReviewDto);
 }

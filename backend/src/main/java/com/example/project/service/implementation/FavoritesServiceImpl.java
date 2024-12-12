@@ -8,6 +8,8 @@ import com.example.project.entity.Food;
 import com.example.project.entity.User;
 import com.example.project.service.FavoritesService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.Base64;
@@ -55,12 +57,14 @@ public class FavoritesServiceImpl implements FavoritesService {
     }
 
     @Override
-    public List<FavoriteDto> findFavoritesByUsername(String username) {
+    public Page<FavoriteDto> findFavoritesByUsername(String username, int page, int size) {
         User user = usersRepository.findByUsername(username);
-        if (user == null) return List.of();
+        if (user == null) return Page.empty();
 
-        List<Favorite> favorites = favoriteRepository.findByUserId(user.getId());
-        return favorites.stream()
+        PageRequest pageRequest = PageRequest.of(page, size);
+        Page<Favorite> favorites = favoriteRepository.findByUserId(user.getId(), pageRequest);
+
+        return favorites
                 .map(favorite -> {
                     FavoriteDto favoriteDto = new FavoriteDto();
                     Food food = favorite.getFood();
@@ -76,8 +80,7 @@ public class FavoritesServiceImpl implements FavoritesService {
                     }
                     favoriteDto.setAddDate(favorite.getAddDate());
                     return favoriteDto;
-                })
-                .collect(Collectors.toList());
+                });
     }
 
     @Override
