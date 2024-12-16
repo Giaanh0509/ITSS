@@ -78,7 +78,7 @@ const App = () => {
             </ProtectedRoute>
           }
         />
-        {/* <Route
+        /* <Route
           path="/menu"
           element={
             <ProtectedRoute>
