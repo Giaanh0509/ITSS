@@ -23,13 +23,18 @@ public class AnketServiceImpl implements AnketService {
     @Override
     public AnketDto findAnketByUserId(int userId) {
         Anket anket = anketRepository.findAnketByUserId(userId);
-        return new AnketDto(anket.getFavoriteFlavors(), anket.getFavoriteFoods(), anket.getPrice(), anket.getDislikes(), userId);
+        return new AnketDto(anket.getFavoriteFlavors(), anket.getFavoriteFoods(), anket.getPrice(), anket.getDislikes(), anket.getUser().getUsername());
     }
 
     @Override
     public Anket addAnket(AnketDto anketDto) {
         Anket anket = new Anket();
-        User user = usersRepository.findById(anketDto.getUserId()).orElseThrow(() -> new RuntimeException("User not found"));
+        User user = usersRepository.findByUsername(anketDto.getUsername());
+        
+        if (user == null) {
+            throw new RuntimeException("User not found with username: " + anketDto.getUsername());
+        }
+        
         anket.setUser(user);
         anket.setFavoriteFlavors(anketDto.getFavoriteFlavor());
         anket.setFavoriteFoods(anketDto.getFavoriteFoods());

@@ -1,7 +1,5 @@
 package com.example.project.entity;
 
-import java.util.List;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -20,19 +18,19 @@ public class Anket {
     private int id;
 
     @Column(name = "favorite_flavor")
-    private List<String> favoriteFlavor;
+    private String favoriteFlavor;
 
     @Column(name = "favorite_food")
-    private List<String> favoriteFood;
+    private String favoriteFood;
 
     @Column(name = "price_range")
-    private List<String> priceRange;
+    private String priceRange;
 
     @Column(name = "dislike")
-    private List<String> dislike;
+    private String dislike;
 
     @OneToOne
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 
     // Getters and Setters
@@ -44,35 +42,35 @@ public class Anket {
         this.id = id;
     }
 
-    public List<String> getFavoriteFlavors() {
+    public String getFavoriteFlavors() {
         return favoriteFlavor;
     }
 
-    public void setFavoriteFlavors(List<String> favoriteFlavor) {
+    public void setFavoriteFlavors(String favoriteFlavor) {
         this.favoriteFlavor = favoriteFlavor;
     }
 
-    public List<String> getFavoriteFoods() {
+    public String getFavoriteFoods() {
         return favoriteFood;
     }
 
-    public void setFavoriteFoods(List<String> favoriteFood) {
+    public void setFavoriteFoods(String favoriteFood) {
         this.favoriteFood = favoriteFood;
     }
 
-    public List<String> getPrice() {
+    public String getPrice() {
         return priceRange;
     }
 
-    public void setPrice(List<String> priceRange) {
+    public void setPrice(String priceRange) {
         this.priceRange = priceRange;
     }
 
-    public List<String> getDislikes() {
+    public String getDislikes() {
         return dislike;
     }
 
-    public void setDislikes(List<String> dislike) {
+    public void setDislikes(String dislike) {
         this.dislike = dislike;
     }
 

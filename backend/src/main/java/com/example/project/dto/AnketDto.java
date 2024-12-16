@@ -1,60 +1,59 @@
 package com.example.project.dto;
 
-import java.util.List;
-
 public class AnketDto {
-    private List<String> price;
-    private List<String> favoriteFoods;
-    private List<String> favoriteFlavors;
-    private List<String> dislikes;
-    private int userId;
+    private String price;
+    private String favoriteFoods;
+    private String favoriteFlavor;
+    private String dislikes;
+    private String username;
 
     // Getters and Setters
-    public List<String> getPrice() {
+
+    public AnketDto(String favoriteFlavor, String favoriteFoods, String price, String dislikes, String Username) {
+        this.price = price;
+        this.favoriteFoods = favoriteFoods;
+        this.favoriteFlavor = favoriteFlavor;
+        this.dislikes = dislikes;
+        this.username = Username;
+    }
+
+    public String getPrice() {
         return price;
     }
 
-    public AnketDto(List<String> favoriteFlavors, List<String> favoriteFoods, List<String> priceRange, List<String> dislikes, int userId) {
-        this.favoriteFlavors = favoriteFlavors;
-        this.favoriteFoods = favoriteFoods;
-        this.price = priceRange;
-        this.dislikes = dislikes;
-        this.userId = userId;
-    }
-
-    public void setPrice(List<String> price) {
+    public void setPrice(String price) {
         this.price = price;
     }
 
-    public List<String> getFavoriteFoods() {
+    public String getFavoriteFoods() {
         return favoriteFoods;
     }
 
-    public void setFavoriteFoods(List<String> favoriteFoods) {
+    public void setFavoriteFoods(String favoriteFoods) {
         this.favoriteFoods = favoriteFoods;
     }
 
-    public List<String> getFavoriteFlavor() {
-        return favoriteFlavors;
+    public String getFavoriteFlavor() {
+        return favoriteFlavor;
     }
 
-    public void setFavoriteFlavor(List<String> favoriteFlavor) {
-        this.favoriteFlavors = favoriteFlavor;
+    public void setFavoriteFlavor(String favoriteFlavor) {
+        this.favoriteFlavor = favoriteFlavor;
     }
 
-    public List<String> getDislikes() {
+    public String getDislikes() {
         return dislikes;
     }
 
-    public void setDislikes(List<String> dislikes) {
+    public void setDislikes(String dislikes) {
         this.dislikes = dislikes;
     }
 
-    public int getUserId() {
-        return userId;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public void setUsername(String username) {
+        this.username = username;
     }
 }

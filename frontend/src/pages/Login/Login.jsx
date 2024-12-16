@@ -34,6 +34,7 @@ const Login = () => {
             .then((res) => {
                 if (res.data.message === "Login Success") {
                     localStorage.setItem("username", credentials.username);
+                    sessionStorage.setItem("username", credentials.username);
                     login(credentials.username);
                     navigate("/");
                 } else {
