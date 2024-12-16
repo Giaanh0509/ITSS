@@ -13,6 +13,7 @@ import Favorite from "./pages/Favorite/Favorite";
 import Menu from "./pages/Menu/Menu";
 import Review from "./pages/Review/Review";
 import ProtectedRoute from "./components/ProtectedRoute";
+import Anket from "./pages/Suggest/Anket";
 
 const App = () => {
   return (
@@ -77,7 +78,7 @@ const App = () => {
             </ProtectedRoute>
           }
         />
-        <Route
+        {/* <Route
           path="/menu"
           element={
             <ProtectedRoute>
