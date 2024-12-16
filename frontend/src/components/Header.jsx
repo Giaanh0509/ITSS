@@ -70,7 +70,7 @@ const Header = () => {
                         </li>
                         <li>
                             <a
-                                href="/suggest"
+                                href="/suggest/anket"
                                 className="text-gray-800 font-semibold hover:text-gray-600 no-underline"
                             >
                                 おすすめ

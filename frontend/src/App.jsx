@@ -13,6 +13,7 @@ import Favorite from "./pages/Favorite/Favorite";
 import Menu from "./pages/Menu/Menu";
 import Review from "./pages/Review/Review";
 import ProtectedRoute from "./components/ProtectedRoute";
+import Anket from "./pages/Anket/Anket";
 
 const App = () => {
   return (
@@ -73,6 +74,16 @@ const App = () => {
             <ProtectedRoute>
               <MainLayout>
                 <FoodDetailPage />
+              </MainLayout>
+            </ProtectedRoute>
+          }
+        />
+                <Route
+          path="/suggest/anket"
+          element={
+            <ProtectedRoute>
+              <MainLayout>
+                <Anket />
               </MainLayout>
             </ProtectedRoute>
           }
