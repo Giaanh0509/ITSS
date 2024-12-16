@@ -78,7 +78,17 @@ const App = () => {
             </ProtectedRoute>
           }
         />
-        /* <Route
+                <Route
+          path="/suggest/anket"
+          element={
+            <ProtectedRoute>
+              <MainLayout>
+                <Anket />
+              </MainLayout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
           path="/menu"
           element={
             <ProtectedRoute>
