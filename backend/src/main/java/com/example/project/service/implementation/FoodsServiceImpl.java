@@ -9,6 +9,7 @@ import com.example.project.exception.AddFoodFailException;
 import com.example.project.service.FoodsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -109,6 +110,37 @@ public class FoodsServiceImpl implements FoodsService {
         }).collect(Collectors.toList());
     }
 
+    @Override
+    @Transactional
+    public List<FoodDto> getFoodsByTagName(String tagName) {
+        // Fetch the Tag entity by tag name
+        Optional<Tag> tagOptional = tagsRepository.findByTagName(tagName);
+        System.out.println("Tag found: " + tagOptional.isPresent());
+        if (tagOptional.isPresent()) {
+            Tag tag = tagOptional.get();
+
+            // Fetch foods associated with the tag
+            return tag.getFoods().stream().map(food -> {
+                FoodDto foodDto = new FoodDto();
+                foodDto.setId(food.getId());
+                foodDto.setName(food.getName());
+                foodDto.setDescription(food.getDescription());
+                foodDto.setPrice(food.getPrice());
+                foodDto.setLocation(food.getLocation());
+                foodDto.setRating(food.getRating());
+
+                // Convert image to Base64 string
+                if (food.getImage() != null) {
+                    String base64Image = Base64.getEncoder().encodeToString(food.getImage());
+                    foodDto.setImageBase64(base64Image);
+                }
+
+                return foodDto;
+            }).collect(Collectors.toList());
+        }
+
+        return Collections.emptyList();
+    }
 
 
 

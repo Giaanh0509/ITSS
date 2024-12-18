@@ -14,4 +14,5 @@ public interface FoodsService {
     Food getFoodById(int id);
 
     Food saveFoodWithImage(String description, String location, String name, Double price, MultipartFile file, List<Integer> tagIds);
+    List<FoodDto> getFoodsByTagName(String tagName);
 }

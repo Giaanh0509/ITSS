@@ -3,6 +3,7 @@ package com.example.project.controller;
 import com.example.project.dto.FoodDto;
 import com.example.project.service.FoodsService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,7 +25,14 @@ public class FoodController {
     public List<FoodDto> getAllFoods() {
         return foodsService.getAllFoods();
     }
-
-    // Endpoint to get food details by id
+    @GetMapping("/menu/by-tag")
+    public ResponseEntity<List<FoodDto>> getFoodsByTag(@RequestParam String tagName) {
+        try {
+            List<FoodDto> foods = foodsService.getFoodsByTagName(tagName);
+            return ResponseEntity.ok(foods);
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body(null);
+        }
+    }
 
 }
