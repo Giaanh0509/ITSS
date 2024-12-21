@@ -11,6 +11,7 @@ public class FavoriteDto {
     private String location;
     private String imageBase64; // Base64 encoded image
     private Date addDate; // Date when the food was added to favorites
+    private int foodId;
 
     // Getters and setters
     public int getId() {
@@ -75,5 +76,13 @@ public class FavoriteDto {
 
     public void setAddDate(Date addDate) {
         this.addDate = addDate;
+    }
+
+    public int getFoodId() {
+        return foodId;
+    }
+
+    public void setFoodId(int foodId) {
+        this.foodId = foodId;
     }
 }

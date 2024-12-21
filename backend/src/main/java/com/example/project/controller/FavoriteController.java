@@ -103,5 +103,36 @@ public class FavoriteController {
         }
     }
 
+    @DeleteMapping("/delete")
+    public ResponseEntity<String> deleteFavorite(
+            @RequestParam String username,
+            @RequestParam int foodId
+    ) {
+        try {
+            User user = usersService.findByUsername(username);
+            if (user == null) {
+                return ResponseEntity.status(404).body("User not found.");
+            }
+
+            favoriteService.deleteFavoriteByUserAndFood(user.getId(), foodId);
+            return ResponseEntity.ok("Favorite deleted successfully.");
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Error deleting favorite: " + e.getMessage());
+        }
+    }
+
+
+//    @DeleteMapping("/delete")
+//    public ResponseEntity<String> deleteFavorite(@RequestParam int userId, @RequestParam int foodId) {
+//        try {
+//            favoriteService.deleteFavoriteByUserAndFood(userId, foodId);
+//            return ResponseEntity.ok("Favorite deleted successfully.");
+//        } catch (Exception e) {
+//            return ResponseEntity.status(500).body("Error deleting favorite: " + e.getMessage());
+//        }
+//    }
+
+
+
 
 }

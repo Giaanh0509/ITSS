@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Base64;
 import java.util.List;
@@ -46,6 +47,7 @@ public class FavoritesServiceImpl implements FavoritesService {
                     favoriteDto.setRating(food.getRating());
                     favoriteDto.setPrice(food.getPrice());
                     favoriteDto.setLocation(food.getLocation());
+                    favoriteDto.setFoodId(food.getId());
                     if (food.getImage() != null) {
                         String base64Image = Base64.getEncoder().encodeToString(food.getImage());
                         favoriteDto.setImageBase64(base64Image);
@@ -74,6 +76,7 @@ public class FavoritesServiceImpl implements FavoritesService {
                     favoriteDto.setRating(food.getRating());
                     favoriteDto.setPrice(food.getPrice());
                     favoriteDto.setLocation(food.getLocation());
+                    favoriteDto.setFoodId(food.getId());
                     if (food.getImage() != null) {
                         String base64Image = Base64.getEncoder().encodeToString(food.getImage());
                         favoriteDto.setImageBase64(base64Image);
@@ -91,6 +94,12 @@ public class FavoritesServiceImpl implements FavoritesService {
     @Override
     public Optional<Favorite> findByUserAndFood(int userId, int foodId) {
         return favoriteRepository.findByUserIdAndFoodId(userId, foodId);
+    }
+
+    @Override
+    @Transactional
+    public void deleteFavoriteByUserAndFood(int userId, int foodId) {
+        favoriteRepository.deleteByUserIdAndFoodId(userId, foodId);
     }
 
 }
