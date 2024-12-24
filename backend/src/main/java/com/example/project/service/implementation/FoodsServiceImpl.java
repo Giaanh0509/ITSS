@@ -4,6 +4,7 @@ import com.example.project.dao.FoodsRepository;
 import com.example.project.dao.TagsRepository;
 import com.example.project.dto.FoodDto;
 import com.example.project.entity.Food;
+import com.example.project.entity.Review;
 import com.example.project.entity.Tag;
 import com.example.project.exception.AddFoodFailException;
 import com.example.project.service.FoodsService;
@@ -115,7 +116,7 @@ public class FoodsServiceImpl implements FoodsService {
     public List<FoodDto> getFoodsByTagName(String tagName) {
         // Fetch the Tag entity by tag name
         Optional<Tag> tagOptional = tagsRepository.findByTagName(tagName);
-        System.out.println("Tag found: " + tagOptional.isPresent());
+
         if (tagOptional.isPresent()) {
             Tag tag = tagOptional.get();
 
@@ -141,6 +142,8 @@ public class FoodsServiceImpl implements FoodsService {
 
         return Collections.emptyList();
     }
+
+
 
 
 

@@ -25,6 +25,13 @@ public class FoodController {
     public List<FoodDto> getAllFoods() {
         return foodsService.getAllFoods();
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<FoodDto> getFoodById(@PathVariable int id) {
+        return foodsService.getFoodDtoById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
     @GetMapping("/menu/by-tag")
     public ResponseEntity<List<FoodDto>> getFoodsByTag(@RequestParam String tagName) {
         try {

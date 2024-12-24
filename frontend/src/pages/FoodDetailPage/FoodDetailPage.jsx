@@ -73,7 +73,7 @@ const FoodDetailPage = () => {
           <div>
             <h3 className="font-bold">説明</h3>
             <p className="text-xl mb-2">{food.description}</p>
-            <p className="text-lg text-gray-600 mb-4">価格: {food.price}đ</p>
+            <p className="text-lg text-gray-600 mb-4">価格: {food.price}$</p>
             <p className="text-lg text-gray-600 mb-2">場所: {food.location}</p>
 
             {/* Star Rating */}

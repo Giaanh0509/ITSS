@@ -11,6 +11,7 @@ import com.example.project.entity.User;
 import com.example.project.service.ReviewsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -80,5 +81,23 @@ public class ReviewsServiceImpl implements ReviewsService {
 
         // Save the review in the database
         reviewsRepository.save(review);
+        updateFoodRating(food);
+    }
+
+    private void updateFoodRating(Food food) {
+        // Fetch all reviews for the given Food
+        Pageable pageable = PageRequest.of(0, 8); // For page 0 with 10 items per page
+        Page<Review> pagedReviews = reviewsRepository.findByFoodId(food.getId(), pageable);
+        List<Review> reviews = pagedReviews.getContent();
+
+        // Calculate the average rating
+        double averageRating = reviews.stream()
+                .mapToDouble(Review::getStar)
+                .average()
+                .orElse(0.0);
+        double formattedRating = Double.parseDouble(String.format("%.1f", averageRating));
+        // Update the Food entity's rating
+        food.setRating(formattedRating);
+        foodsRepository.save(food);
     }
 }
