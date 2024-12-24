@@ -26,28 +26,6 @@ const FavoriteFoods = () => {
         fetchUserFavorites();
     }, [authState.username]);
 
-    // const handleDelete = async (username, id) => {
-    //     console.log("Deleting favorite with:", { username, id });
-    //     console.log("authState:", authState);
-
-    //     try {
-    //         const response = await axios.delete("/favorites/delete", {
-    //             params: {
-    //                 username: encodeURIComponent(username),
-    //                 foodId: encodeURIComponent(id),
-    //             },
-    //         });
-    //         if (response.status === 200) {
-    //             alert("Favorite deleted successfully!");
-    //             setFavorites(favorites.filter((fav) => fav.id !== id));
-    //         } else {
-    //             alert("Failed to delete favorite.");
-    //         }
-    //     } catch (error) {
-    //         console.error("Error deleting favorite:", error);
-    //         alert("Error occurred while deleting the favorite.");
-    //     }
-    // };
     const handleDelete = async (username, foodId) => {
       console.log("Deleting favorite with:", { username, foodId });
       try {
