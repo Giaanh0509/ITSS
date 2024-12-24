@@ -4,7 +4,7 @@ public class FoodDto {
     private int id;
     private String name;
     private String description;
-    private int rating;
+    private double rating;
     private double price;
     private String location;
     private String imageBase64; // Base64 encoded image
@@ -34,11 +34,11 @@ public class FoodDto {
         this.description = description;
     }
 
-    public int getRating() {
+    public double getRating() {
         return rating;
     }
 
-    public void setRating(int rating) {
+    public void setRating(double rating) {
         this.rating = rating;
     }
 

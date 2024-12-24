@@ -18,7 +18,7 @@ public class Food {
     private String description;
 
     @Column
-    private int rating;
+    private double rating;
 
     @Column
     private double price;
@@ -67,11 +67,11 @@ public class Food {
         this.description = description;
     }
 
-    public int getRating() {
+    public double getRating() {
         return rating;
     }
 
-    public void setRating(int rating) {
+    public void setRating(double rating) {
         this.rating = rating;
     }
 

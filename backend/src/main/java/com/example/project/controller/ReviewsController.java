@@ -29,7 +29,7 @@ public class ReviewsController {
     public ResponseEntity<Page<ReviewDto>> getAllReviews(
             @PathVariable int foodId,
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "4") int size
+            @RequestParam(defaultValue = "8") int size
     ) {
         Pageable pageable = PageRequest.of(page, size);
         Page<ReviewDto> reviews = reviewsService.findReviewsByFoodId(foodId, pageable);
