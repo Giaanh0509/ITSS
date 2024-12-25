@@ -5,6 +5,8 @@ const Menu = () => {
   const [foodItems, setFoodItems] = useState([]); // State to store food data
   const [loading, setLoading] = useState(true); // State for loading indicator
   const [selectedTag, setSelectedTag] = useState("all"); // State to track selected tag
+  const [currentPage, setCurrentPage] = useState(1); // State for the current page
+  const [itemsPerPage, setItemsPerPage] = useState(8); // Number of items to show per page
 
   // Fetch all food items when the component mounts
   useEffect(() => {
@@ -30,8 +32,12 @@ const Menu = () => {
   const handleTagChange = async (tagName) => {
     setLoading(true); // Show loading indicator
     setSelectedTag(tagName); // Update selected tag
+    setCurrentPage(1); // Reset to page 1 when a new tag is selected
 
-    const endpoint = tagName === "all" ? "http://localhost:8080/menu" : `http://localhost:8080/menu/by-tag?tagName=${tagName}`;
+    const endpoint =
+        tagName === "all"
+            ? "http://localhost:8080/menu"
+            : `http://localhost:8080/menu/by-tag?tagName=${tagName}`;
 
     try {
       const response = await fetch(endpoint);
@@ -44,6 +50,16 @@ const Menu = () => {
     }
   };
 
+  // Get the items to display for the current page (sliding window)
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = foodItems.slice(indexOfFirstItem, indexOfLastItem);
+
+  // Change the page
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
+  // Determine total pages
+  const totalPages = Math.ceil(foodItems.length / itemsPerPage);
 
   return (
       <div className="font-sans">
@@ -61,40 +77,49 @@ const Menu = () => {
             <div className="flex justify-center space-x-4 mb-8">
               <button
                   onClick={() => handleTagChange("all")}
-                  className={`px-4 py-2 ${selectedTag === "all" ? 'bg-red-500 text-white' : 'border text-gray-700'} rounded-full`}
+                  className={`px-4 py-2 ${
+                      selectedTag === "all" ? "bg-red-500 text-white" : "border text-gray-700"
+                  } rounded-full`}
               >
                 全部
               </button>
               <button
                   onClick={() => handleTagChange("meal_breakfast")}
-                  className={`px-4 py-2 ${selectedTag === "meal_breakfast" ? 'bg-red-500 text-white' : 'border text-gray-700'} rounded-full`}
+                  className={`px-4 py-2 ${
+                      selectedTag === "meal_breakfast" ? "bg-red-500 text-white" : "border text-gray-700"
+                  } rounded-full`}
               >
                 朝食
               </button>
               <button
                   onClick={() => handleTagChange("meal_lunch")}
-                  className={`px-4 py-2 ${selectedTag === "meal_lunch" ? 'bg-red-500 text-white' : 'border text-gray-700'} rounded-full`}
+                  className={`px-4 py-2 ${
+                      selectedTag === "meal_lunch" ? "bg-red-500 text-white" : "border text-gray-700"
+                  } rounded-full`}
               >
                 主菜
               </button>
               <button
                   onClick={() => handleTagChange("type_drink")}
-                  className={`px-4 py-2 ${selectedTag === "type_drink" ? 'bg-red-500 text-white' : 'border text-gray-700'} rounded-full`}
+                  className={`px-4 py-2 ${
+                      selectedTag === "type_drink" ? "bg-red-500 text-white" : "border text-gray-700"
+                  } rounded-full`}
               >
                 飲み物
               </button>
               <button
                   onClick={() => handleTagChange("type_dessert")}
-                  className={`px-4 py-2 ${selectedTag === "type_dessert" ? 'bg-red-500 text-white' : 'border text-gray-700'} rounded-full`}
+                  className={`px-4 py-2 ${
+                      selectedTag === "type_dessert" ? "bg-red-500 text-white" : "border text-gray-700"
+                  } rounded-full`}
               >
                 デザート
               </button>
             </div>
 
             {/* Menu Items */}
-
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-              {foodItems.map((item) => (
+              {currentItems.map((item) => (
                   <Link
                       to={`/foods/${item.id}`} // Navigate to food detail page
                       key={item.id}
@@ -116,6 +141,25 @@ const Menu = () => {
                     </div>
                   </Link>
               ))}
+            </div>
+
+            {/* Pagination Controls */}
+            <div className="flex justify-center space-x-4 mt-8">
+              <button
+                  onClick={() => paginate(currentPage - 1)}
+                  disabled={currentPage === 1}
+                  className="px-4 py-2 border text-gray-700 rounded-full"
+              >
+                前へ
+              </button>
+              <span className="px-4 py-2">{`Page ${currentPage} of ${totalPages}`}</span>
+              <button
+                  onClick={() => paginate(currentPage + 1)}
+                  disabled={currentPage === totalPages}
+                  className="px-4 py-2 border text-gray-700 rounded-full"
+              >
+                次へ
+              </button>
             </div>
           </div>
         </section>
