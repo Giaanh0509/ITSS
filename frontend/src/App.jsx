@@ -14,6 +14,7 @@ import Menu from "./pages/Menu/Menu";
 import Review from "./pages/Review/Review";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Anket from "./pages/Anket/Anket";
+import Recommendations from "./pages/Recommendations/Recommendations";
 
 const App = () => {
   return (
@@ -42,6 +43,15 @@ const App = () => {
           element={
             <AuthLayout>
               <Favorite />
+            </AuthLayout>
+          }
+        />
+
+        <Route
+          path="/recommendations"
+          element={
+            <AuthLayout>
+              <Recommendations />
             </AuthLayout>
           }
         />
@@ -78,7 +88,7 @@ const App = () => {
             </ProtectedRoute>
           }
         />
-                <Route
+        <Route
           path="/suggest/anket"
           element={
             <ProtectedRoute>
