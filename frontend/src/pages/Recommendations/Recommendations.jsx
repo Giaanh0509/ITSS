@@ -30,9 +30,9 @@ const Recommendations = () => {
 
     return (
         <div className="recommendations-container">
-            <h1>Recommended Foods for {authState.username}</h1>
+            <h1>{authState.username}のメニュ一提案画面</h1>
             {loading ? (
-                <p>Loading recommendations...</p>
+                <p>データの読み込み。。。</p>
             ) : recommendations.length > 0 ? (
                 <div className="recommendations-grid">
                     {recommendations.map((food) => (
@@ -53,7 +53,7 @@ const Recommendations = () => {
                     ))}
                 </div>
             ) : (
-                <p>No recommendations found.</p>
+                <p>なし</p>
             )}
         </div>
     );
