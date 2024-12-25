@@ -19,7 +19,6 @@ public interface FavoritesRepository extends JpaRepository<Favorite, Integer> {
 
     List<Favorite> findTop4ByUserIdOrderByAddDateDesc(int userId);
 
-
     Page<Favorite> findByUserId(int userId, Pageable pageable);
 
     Optional<Favorite> findByUserIdAndFoodId(int userId, int foodId);

@@ -120,8 +120,7 @@ public class FavoriteController {
             return ResponseEntity.status(500).body("Error deleting favorite: " + e.getMessage());
         }
     }
-
-
+    
 //    @DeleteMapping("/delete")
 //    public ResponseEntity<String> deleteFavorite(@RequestParam int userId, @RequestParam int foodId) {
 //        try {
