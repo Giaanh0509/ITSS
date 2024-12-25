@@ -16,8 +16,9 @@
   }
   
   .favorites-grid {
-    display: grid;
+    display: flex;
     grid-template-columns: repeat(4, 1fr);
+    flex-wrap: wrap;
     gap: 20px;
   }
   
