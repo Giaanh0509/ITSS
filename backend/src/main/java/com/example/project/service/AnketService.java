@@ -5,6 +5,7 @@ import com.example.project.dto.AnketDto;
 import com.example.project.entity.Anket;
 
 public interface AnketService {
-    AnketDto findAnketByUserId(int userId);
+    AnketDto findAnketByUsername(String username);
     Anket addAnket(AnketDto anketDto);
+    void deleteAnket(String username);
 }
