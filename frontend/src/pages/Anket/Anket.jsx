@@ -1,13 +1,75 @@
 import React, { useState } from 'react';
 import axios from '../../axios';
+import { useEffect } from 'react';
+import { useNavigate } from "react-router-dom";
 
 const Anket = () => {
+    const [availableAnket, setAvailableAnket] = useState(0);
+    const navigate = useNavigate();
+    
     const [formData, setFormData] = useState({
         question1: { price1: false, price2: false, price3: false, price4: false, price5: false },
         question2: { option1: false, option2: false, option3: false, option4: false, option5: false, option6: false },
         question3: { option1: false, option2: false, option3: false, option4: false, option5: false },
         question4: { option1: false, option2: false, option3: false, option4: false, option5: false },
     });
+
+    useEffect(() => {
+        const fetchFormData = async () => {
+            try {
+                const username = localStorage.getItem('username');
+                const response = await axios.get(`/suggest/anket/${username}`);
+                if (response.data) {
+                    setAvailableAnket(1);
+                    console.log('availableAnket:', availableAnket);
+                    setFormData(response.data);
+                const decodedData = {
+                    question1: {
+                        price1: response.data.price.includes('price_15-20'),
+                        price2: response.data.price.includes('price_25-50'),
+                        price3: response.data.price.includes('price_50-100'),
+                        price4: response.data.price.includes('price_100-150'),
+                        price5: response.data.price.includes('price_151'),
+                    },
+                    question2: {
+                        option1: response.data.favoriteFoods.includes('food_pho'),
+                        option2: response.data.favoriteFoods.includes('food_banhmi'),
+                        option3: response.data.favoriteFoods.includes('food_salad'),
+                        option4: response.data.favoriteFoods.includes('food_fastfood'),
+                        option5: response.data.favoriteFoods.includes('food_grilled'),
+                        option6: response.data.favoriteFoods.includes('food_rice'),
+                    },
+                    question3: {
+                        option1: response.data.favoriteFlavor.includes('flavor_sour'),
+                        option2: response.data.favoriteFlavor.includes('flavor_spicy'),
+                        option3: response.data.favoriteFlavor.includes('flavor_salty'),
+                        option4: response.data.favoriteFlavor.includes('flavor_sweet'),
+                        option5: response.data.favoriteFlavor.includes('flavor_balanced'),
+                    },
+                    question4: {
+                        option1: response.data.dislikes.includes('ingre_sea'),
+                        option2: response.data.dislikes.includes('ingre_eggs'),
+                        option3: response.data.dislikes.includes('ingre_dairy'),
+                        option4: response.data.dislikes.includes('ingre_meat'),
+                        option5: response.data.dislikes.includes('none'),
+                    },
+                };
+                setFormData(decodedData);
+                } else {
+                    setFormData({
+                        question1: { price1: false, price2: false, price3: false, price4: false, price5: false },
+                        question2: { option1: false, option2: false, option3: false, option4: false, option5: false, option6: false },
+                        question3: { option1: false, option2: false, option3: false, option4: false, option5: false },
+                        question4: { option1: false, option2: false, option3: false, option4: false, option5: false },
+                    });
+                }
+            } catch (error) {
+                console.error('Failed to fetch form data:', error);
+            }
+        };
+
+        fetchFormData();
+    }, []);
 
     const [error, setError] = useState(null);
     const [success, setSuccess] = useState(null);
@@ -61,6 +123,20 @@ const Anket = () => {
 
         console.log('Anket data:', anketData);
 
+        console.log('Available anket:', availableAnket);
+        if(availableAnket === 1) {
+            console.log('Update anket');
+            try {
+                console.log('Delete anket');
+                const response = await axios.delete(`/suggest/anket/${localStorage.getItem('username')}`);
+                setAvailableAnket(0);
+            } catch (err) {
+                console.error('Failed to delete anket');
+                setError("Failed to delete anket. Please try again.");
+                setSuccess(null);
+            }
+        }
+
         try{
             console.log('Trying')
             const response = await axios.post("/suggest/anket", anketData, {
@@ -79,6 +155,8 @@ const Anket = () => {
                     question3: { option1: false, option2: false, option3: false, option4: false, option5: false },
                     question4: { option1: false, option2: false, option3: false, option4: false, option5: false },
                 });
+
+                navigate('/recommendations');
             }
         } catch (err) {
             console.error('Failed to create anket');

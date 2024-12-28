@@ -21,8 +21,9 @@ public class AnketServiceImpl implements AnketService {
     }
 
     @Override
-    public AnketDto findAnketByUserId(int userId) {
-        Anket anket = anketRepository.findAnketByUserId(userId);
+    public AnketDto findAnketByUsername(String username) {
+        User user = usersRepository.findByUsername(username);
+        Anket anket = anketRepository.findAnketByUserId(user.getId());
         return new AnketDto(anket.getFavoriteFlavors(), anket.getFavoriteFoods(), anket.getPrice(), anket.getDislikes(), anket.getUser().getUsername());
     }
 
@@ -41,5 +42,12 @@ public class AnketServiceImpl implements AnketService {
         anket.setPrice(anketDto.getPrice());
         anket.setDislikes(anketDto.getDislikes());
         return anketRepository.save(anket);
+    }
+
+    @Override
+    public void deleteAnket(String username) {
+        User user = usersRepository.findByUsername(username);
+        Anket anket = anketRepository.findAnketByUserId(user.getId());
+        anketRepository.delete(anket);
     }
 }
