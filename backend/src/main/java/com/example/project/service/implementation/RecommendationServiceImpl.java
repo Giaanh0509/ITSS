@@ -47,7 +47,7 @@ public class RecommendationServiceImpl implements RecommendationService {
                 .collect(Collectors.toList());
 
         // Step 3: Find food items that match the tags
-        List<Food> matchingFoods = foodRepository.findFoodsByTags(preferredTags);
+        List<Food> matchingFoods = foodRepository.findFoodsByTags(preferredTags, username);
 
         // Step 4: Map the food entities to DTOs
         return matchingFoods.stream()
