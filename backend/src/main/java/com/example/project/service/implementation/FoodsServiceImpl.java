@@ -27,6 +27,21 @@ public class FoodsServiceImpl implements FoodsService {
     private final FoodsRepository foodRepository;
     private final TagsRepository tagsRepository;
 
+    private int getPriceRangeTagId(double price) {
+        if (0 <= price && price <= 25) {
+            return 1; // price_15-20
+        } else if (25 < price && price <= 50) {
+            return 2; // price_25-50
+        } else if (50 < price && price <= 100) {
+            return 3; // price_50-100
+        } else if (100 < price && price <= 150) {
+            return 4; // price_100-150
+        } else if (150 < price) {
+            return 5; // price_151
+        }
+        throw new IllegalArgumentException("Price does not fall into a predefined range.");
+    }
+
     @Autowired
     public FoodsServiceImpl(FoodsRepository foodRepository, TagsRepository tagsRepository) {
         this.foodRepository = foodRepository;
@@ -81,6 +96,17 @@ public class FoodsServiceImpl implements FoodsService {
 
             Set<Tag> tags = new HashSet<>(tagsRepository.findAllById(tagIds));
             food.setTags(tags);
+
+            // Determine the price range tag ID
+            int priceRangeTagId = getPriceRangeTagId(price);
+            // Add the price range tag ID to the tagIds list
+            if (!tagIds.contains(priceRangeTagId)) {
+                tagIds.add(priceRangeTagId);
+            }
+            Food savedFood = foodRepository.save(food);
+            // Fetch and associate the tags
+            Set<Tag> associatedTags = tagsRepository.findAllById(tagIds).stream().collect(Collectors.toSet());
+            savedFood.setTags(associatedTags);
 
             // Save the food to the repository
             return foodRepository.save(food);

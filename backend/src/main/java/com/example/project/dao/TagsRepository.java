@@ -1,6 +1,7 @@
 package com.example.project.dao;
 
 import com.example.project.entity.Tag;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
