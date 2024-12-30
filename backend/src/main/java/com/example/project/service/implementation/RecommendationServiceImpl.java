@@ -1,19 +1,20 @@
 package com.example.project.service.implementation;
 
+import java.util.Base64;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.example.project.dao.AnketRepository;
 import com.example.project.dao.FoodsRepository;
 import com.example.project.dto.FoodDto;
 import com.example.project.entity.Anket;
 import com.example.project.entity.Food;
 import com.example.project.service.RecommendationService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import java.util.Base64;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class RecommendationServiceImpl implements RecommendationService {
@@ -37,17 +38,24 @@ public class RecommendationServiceImpl implements RecommendationService {
         Anket anket = anketOptional.get();
 
         // Step 2: Fetch matching tags from the ankets data
-        List<String> preferredTags = List.of(
-                        anket.getFavoriteFlavors(),
-                        anket.getFavoriteFoods(),
-                        anket.getPrice(),
-                        anket.getDislikes()
-                ).stream()
+
+        String temp = anket.getFavoriteFlavors() + "," + anket.getFavoriteFoods() + "," + anket.getPrice();
+
+        List<String> preferredTags = List.of(temp.split(","))
+                .stream()
                 .filter(Objects::nonNull)
+                .map(String::trim)
+                .collect(Collectors.toList());
+
+        temp = anket.getDislikes();
+        List<String> dislikedTags = List.of(temp.split(","))
+                .stream()
+                .filter(Objects::nonNull)
+                .map(String::trim)
                 .collect(Collectors.toList());
 
         // Step 3: Find food items that match the tags
-        List<Food> matchingFoods = foodRepository.findFoodsByTags(preferredTags, username);
+        List<Food> matchingFoods = foodRepository.findFoodsByTags(preferredTags, username, dislikedTags);
 
         // Step 4: Map the food entities to DTOs
         return matchingFoods.stream()
